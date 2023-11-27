@@ -1,0 +1,98 @@
+
+.header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    width: 100%;
+    padding: 20px;
+}
+
+.header ion-img{
+    width: 60%;
+}
+
+.light-mode-content{
+    --background: #51284F !important;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.light-mode-content ion-list{
+    --background: #51284F !important;
+}
+
+.light-mode-content .list-md{
+    --background: none !important;
+}
+
+.titulos{
+    font-size: 30px !important;
+    font-weight: bolder;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.item{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 16px;
+}
+
+.cargo{
+    font-size: 14px;
+    font-weight: bolder;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.nombre{
+    font-size: 22px;
+    font-weight: bolder;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.descripcion{
+    font-size: 14px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.label-custom{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    color: #EFDBB2;
+    border: 1px solid #EFDBB2;
+}
+
+ion-list{
+
+}
+
+ion-item{
+
+    --color: #EFDBB2;
+}
+
+h1{
+    font-weight: 900;
+}
+
+.toggle-icon {
+    transition: transform 0.3s ease-in-out;
+}  
+.toggle-icon2 {
+    transition: transform 0.3s ease-in-out;
+}  
+
+.hide-list {
+    transform: rotate(180deg);
+}

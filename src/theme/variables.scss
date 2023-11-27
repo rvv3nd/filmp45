@@ -1,6 +1,9 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
 
+
+
+
 /** Ionic CSS Variables **/
 :root {
   /** primary **/
@@ -74,8 +77,41 @@
   --ion-color-light-contrast-rgb: 0, 0, 0;
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
+
+
+    /**  Pantone 2622 C **/
+    --ion-color-P2622C: #653165;
+  	--ion-color-P2622C-rgb: 101,49,101;
+  	--ion-color-P2622C-contrast: #ffffff;
+  	--ion-color-P2622C-contrast-rgb: 255,255,255;
+  	--ion-color-P2622C-shade: #592b59;
+  	--ion-color-P2622C-tint: #744674;
+
+    /** Pantone 7506 CP **/
+    --ion-color-P7506CP: #EFDBB2;
+    --ion-color-P7506CP-rgb: 239, 219, 178;
+    --ion-color-P7506CP-contrast: #ffffff;
+    --ion-color-P7506CP-contrast-rgb: 255, 255, 255;
+    --ion-color-P7506CP-shade: #d1b392;
+    --ion-color-P7506CP-tint: #f2d9b5;
 }
 
+.ion-color-P2622C{
+  --ion-color-base: var(--ion-color-P2622C) !important;
+  --ion-color-base-rgb: var(--ion-color-P2622C-rgb)  !important;
+  --ion-color-contrast: var(--ion-color-P2622C-contrast)  !important;
+  --ion-color-contrast-rgb: var(--ion-color-P2622C-contrast-rgb)  !important;
+  --ion-color-shade: var(--ion-color-P2622C-shade)  !important;
+  --ion-color-tint: var(--ion-color-P2622C-tint)  !important;
+}
+.ion-color-P7506CP{
+  --ion-color-base: var(--ion-color-P7506CP) !important;
+  --ion-color-base-rgb: var(--ion-color-P7506CP-rgb)  !important;
+  --ion-color-contrast: var(--ion-color-P7506CP-contrast)  !important;
+  --ion-color-contrast-rgb: var(--ion-color-P7506CP-contrast-rgb)  !important;
+  --ion-color-shade: var(--ion-color-P7506CP-shade)  !important;
+  --ion-color-tint: var(--ion-color-P7506CP-tint)  !important;
+}
 @media (prefers-color-scheme: dark) {
   /*
    * Dark Colors
@@ -156,7 +192,7 @@
     --ion-background-color: #000000;
     --ion-background-color-rgb: 0,0,0;
 
-    --ion-text-color: #ffffff;
+    --ion-text-color: #EFDBB2;
     --ion-text-color-rgb: 255,255,255;
 
     --ion-color-step-50: #0d0d0d;
@@ -200,7 +236,7 @@
     --ion-background-color: #121212;
     --ion-background-color-rgb: 18,18,18;
 
-    --ion-text-color: #ffffff;
+    --ion-text-color: #EFDBB2;
     --ion-text-color-rgb: 255,255,255;
 
     --ion-border-color: #222222;

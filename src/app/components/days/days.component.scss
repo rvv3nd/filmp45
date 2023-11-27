@@ -1,0 +1,24 @@
+.segment-container{
+    max-width: 100vw;
+    height: 90px;
+    overflow-x: auto;
+    padding: 10px 10px 10px 0px;
+    display: flex;
+    justify-content: flex-start;
+    background:#653165;;
+}
+.segment-container::-webkit-scrollbar {
+    display: none; /* Oculta la barra de desplazamiento*/
+}
+
+.dia-container{
+    min-width: auto;
+}
+.segment-button-checked{
+    color: #EFDBB2;
+    font-weight: bolder;
+    --color-checked: #ffdfa0;
+}
+ion-segment-button{
+    color: #efdbb282;
+}

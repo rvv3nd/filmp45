@@ -1,0 +1,99 @@
+.main-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Gotham-Medium';
+}
+.film-logo-container{
+    width: 85%;
+}
+.fil-logo-container-light{
+
+}
+
+.marginT50{
+    margin-top: 50px;
+}
+.marginT20{
+    margin-top: 20px;
+}
+
+.main-content{
+   
+}
+
+ion-label, ion-list{
+    text-align: center;
+}
+
+.info-container{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+}
+
+.label-custom{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.label-custom a{
+    font-weight: bolder;
+}
+
+a{
+    text-decoration: underline;
+    color: #85B9F2
+}
+
+.text-sm{
+    font-size: 16px;
+    color: #fff;
+}
+
+.text-xsm{
+    font-size: 8px;
+    font-family: 'Gotham-Ultra';
+}
+.sc-ion-label-md-s>p {
+    color: #ffffff;
+}
+
+.light-mode-content{
+    --background: #51284F;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.redes-container{
+    width: 100%;
+    color: #fff;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.redes-container div{
+    margin: 5px;
+}
+
+.redes-container a {
+    color: inherit; /* Hereda el color del texto actual */
+    text-decoration: none; /* Elimina el subrayado */
+}
+
+.redes-container a:hover {
+    text-decoration: none; /* Elimina el subrayado al pasar el mouse */
+}
+
+.leev-locogo-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 20vh;
+}

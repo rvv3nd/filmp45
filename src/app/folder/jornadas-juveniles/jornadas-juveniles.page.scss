@@ -1,0 +1,16 @@
+.content-light-mode{
+    --background: #51284F;
+}
+
+ion-content{
+    --color: #fff;
+}
+
+ion-grid {
+    height: 80vh;
+    width: 100%;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center;
+    align-items: stretch; 
+}

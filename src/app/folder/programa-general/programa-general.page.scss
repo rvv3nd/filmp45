@@ -1,0 +1,23 @@
+.days_container{
+    width:100%;
+}
+
+.actividad-item{
+    width: 100%;
+    flex-direction: column !important;
+    text-align: start;
+    padding: 16px;
+}
+.fab-button{ 
+    background:#653165 !important;
+    padding: 10px;
+    border-radius: 50px;
+}
+
+.label{
+    white-space: wrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.categoria{
+    font-style: italic;
+}

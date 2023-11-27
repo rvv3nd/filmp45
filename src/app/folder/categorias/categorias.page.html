@@ -1,0 +1,35 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="P2622C"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Categorías</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" [ngClass]="isModeLight ? 'light-mode-content' : '' ">
+  <app-not-found *ngIf="!found"/>
+  <ion-searchbar mode="ios" color="light" animated></ion-searchbar>
+  <ion-grid>
+    <ion-row *ngFor="let categoria of categorias; let i = index">
+      <ng-container *ngIf="i % 2 === 0">
+        <ion-col size="6">
+          <ion-button expand="block" fill="outline" color="P7506CP">
+            <div class="button-content">
+              <ion-icon size="large" [name]="categorias[i].icono"></ion-icon>
+              <ion-label class="label">{{ categorias[i].nombre }}</ion-label>
+            </div>
+          </ion-button>
+        </ion-col>
+        <ion-col size="6" *ngIf="i + 1 < categorias.length">
+          <ion-button expand="block" fill="outline" color="P7506CP">
+            <div class="button-content">
+              <ion-icon size="large" [name]="categorias[i+1].icono"></ion-icon>
+              <ion-label class="label">{{ categorias[i + 1].nombre }}</ion-label>
+            </div>
+          </ion-button>
+        </ion-col>
+      </ng-container>
+    </ion-row>
+  </ion-grid>
+</ion-content>

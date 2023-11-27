@@ -1,0 +1,66 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="P2622C"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Sobre nosotros</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-margin main-content" [fullscreen]="true"  [ngClass]="isModeLight ? 'light-mode-content' : '' ">
+  <div class="main-container marginT50">
+    <div class="film-logo-container">
+      <ion-img [src]=filmpLogo></ion-img>
+    </div>
+    <div class="marginT20">
+      <ion-label>
+        <p class="text-sm">Copyrigth © 2023 <br> <a href="https://www.unam.mx/">UNAM</a> - <a href="https://www.tic.unam.mx/">DGTIC</a> - <a href="http://filmineria.unam.mx/feria/45fil/index.html">FILMP</a></p>
+      </ion-label>
+    </div>
+    <div class="info-container ion-padding">
+      <div class="label-custom">
+        <div style="padding: 10px;">
+          <a>Políticas de privacidad</a>
+        </div>
+        <div style="padding: 10px;">
+          <a href="https://www.unamenlinea.unam.mx/">Toda la UNAM en línea</a>
+        </div>
+      </div>
+      <div class="marginT20 redes-container">
+        <div>
+          <a href="https://www.facebook.com/FilMineria" target="_blank">
+            <ion-icon size="large" name="logo-facebook"></ion-icon>
+          </a>
+        </div>
+        <div>
+          <a href="https://www.instagram.com/fil_mineria/" target="_blank">
+            <ion-icon size="large" name="logo-instagram"></ion-icon>
+          </a>
+        </div>
+        <div>
+          <a href="https://www.tiktok.com/@filmineria" target="_blank">
+            <ion-icon size="large" name="logo-tiktok"></ion-icon>
+          </a>
+        </div>
+        <div>
+          <a href="https://twitter.com/FILMineria" target="_blank">
+            <ion-img src="../../../assets/icon/twitter-x-logo-light.png" style="width: 32px;"></ion-img>
+          </a>
+        </div>
+        <div>
+          <a href="https://www.youtube.com/user/FILMineria" target="_blank">
+            <ion-icon size="large" name="logo-youtube"></ion-icon>
+          </a>
+        </div>
+      </div>
+      <div class="marginT20">
+        <ion-label class="text-xsm">
+          <p>
+            Version 5.0.1
+          </p>
+        </ion-label>
+      </div>
+    </div>
+
+  </div>
+</ion-content>

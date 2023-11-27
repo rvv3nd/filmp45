@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">FILM 45 - Feria Internacional del Libro Palacio de Mineria</string>
+    <string name="title_activity_main">FILM 45 - Feria Internacional del Libro Palacio de Mineria</string>
+    <string name="package_name">com.film.app</string>
+    <string name="custom_url_scheme">com.film.app</string>
+</resources>

@@ -1,0 +1,24 @@
+.light-mode-content{
+    --background: #51284F;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+ion-button{
+    height: 140px;
+    width: 50vh;
+    display: table-cell;
+    --border-radius:10px;
+}
+
+
+.label{
+    white-space: wrap; overflow: hidden; text-overflow: ellipsis; font-size: 12px; margin: 10px; font-weight: 800; color: #fff;
+}
+
+.button-content{
+    display: flex;
+    flex-direction: column !important;
+    align-items: center;
+    justify-items: stretch !important;
+}

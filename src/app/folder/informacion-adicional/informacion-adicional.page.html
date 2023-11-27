@@ -1,0 +1,39 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="P2622C"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Información adicional</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding" [ngClass]="isModeLight ? 'content-light-mode' : '' ">
+  <!-- <div class="container">
+  </div> -->
+  <ion-grid style="text-align: center;">
+    <ion-row>
+      <ion-col size="12" >
+        <ion-label>Oficinas de la Feria:</ion-label>
+        <p>Tacuba núm. 5, Centro Histórico, C.P. 06000</p>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-label>Teléfono:</ion-label>
+        <p>55-55-12-87-23</p>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12" >
+        <ion-label>Correo electrónico:</ion-label>
+        <p> filmineria@gmail.com </p>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12" >
+        <ion-label>Horario de atención:</ion-label>
+        <p>De 9:00 a 17:00 hrs</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

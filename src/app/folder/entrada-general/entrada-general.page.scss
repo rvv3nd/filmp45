@@ -1,0 +1,27 @@
+.content-light-mode{
+    --background: #51284F;
+}
+ion-row{
+    width: 100%;
+    margin-top: 20px; margin-bottom: 20px;
+}
+p{
+    color: #fff;
+}
+ion-grid {
+  height: 80vh; 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center;
+  align-items: center; 
+}
+ion-label{
+    display: flow;
+    padding: 10px;
+    color: #EFDBB2;
+    font-weight: 900;
+}
+
+.info{
+    font-size: small;
+}
