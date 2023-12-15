@@ -1,6 +1,6 @@
 
-  <ion-segment [(ngModel)]="selectedDay" class="segment-container" mode="md" (ionChange)="onSelectedDayChange(selectedDay)">
+  <ion-segment style="font-family: 'Gotham-Black';" [(ngModel)]="selectedDay" class="segment-container" mode="md" (ionChange)="onSelectedDayChange(selectedDay)">
     <ion-segment-button class="dia-container" *ngFor="let day of days" [value]="day">
-      {{day}}
+      {{formatearFecha(day)}}
     </ion-segment-button>
   </ion-segment>

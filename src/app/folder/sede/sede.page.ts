@@ -1,6 +1,6 @@
 
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { LoadingService } from 'src/app/services/loading.service';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-sede',
@@ -11,13 +11,20 @@ export class SedePage implements OnInit {
   @ViewChild('googleMapIframe')
   googleMapIframe!: ElementRef;
   
-  constructor( private loadingService : LoadingService ) { }
+  constructor( private loadingService : LoadingController ) { }
   ngOnInit() {
-    this.loadingService.presentLoading().then(() => {
+    this.loadingService.create(
+      {
+        message: 'Cargando mapa...',
+        spinner: 'lines-sharp',
+        cssClass: 'custom-loading'
+      }
+    ).then(( res ) => {
+      res.present();
       console.log('Se muestra loading');
       setTimeout(() => {
-        this.loadingService.dismissLoading();
-      }, 400);
+        this.loadingService.dismiss();
+      }, 1000);
     });
   }
 

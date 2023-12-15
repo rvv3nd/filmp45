@@ -1,0 +1,66 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="P2622C"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Podcast</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ng-container>
+    <ion-card class="card-container">
+      <ion-card-header>
+        <ion-card-title>
+          Radio UNAM
+        </ion-card-title>
+        <div class="img">
+          <ion-img src="../../../assets/images/podcast-image-removebg-preview.png"></ion-img>
+        </div>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item (click)="openBrowser('https://www.radiopodcast.unam.mx/podcast/')">
+          <ion-icon aria-hidden="false" slot="start" name="play"></ion-icon>
+          <ion-label>Escuchar</ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+    <p class="title">
+      La Feria Internacional de Libro del Palacio de Minería te invita a participar en su programa radiofónico <strong>“La Feria de los libros”</strong> que se transmite los <strong>lunes</strong> a las <strong>14:00 hrs</strong> por el <strong>860 AM</strong> de <strong>Radio UNAM.</strong>  <br>La FILPM ofrece este servicio gratuitamente para presentar autores y novedades editoriales.
+    </p>
+
+    <ion-card class="card-container">
+      <ion-card-header>
+        <ion-card-title>
+          La feria de los libros
+        </ion-card-title>
+        <ion-card-subtitle>
+          UNAM
+        </ion-card-subtitle>
+        <div>
+          <ion-img class="img-fil" src="../../../assets/images/FILPM 45 fl_ferialibrosalta.png"></ion-img>
+        </div>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item (click)="openBrowser('https://www.radiopodcast.unam.mx/podcast/verserie/116')">
+          <ion-icon aria-hidden="false" slot="start" name="play"></ion-icon>
+          <ion-label>Escuchar</ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <div class="fb-container">
+      <a href="https://www.facebook.com/LaFeriadeloslibros/" target="_blank">
+        <div>
+          <ion-icon style="font-size: 60px" name="logo-facebook"></ion-icon>
+        </div>
+        <div class="fb-live">
+          <div class="circle"></div>
+          <p>Facebook live del Programa de Radio “La feria de los libros”</p>
+        </div>
+      </a>
+    </div>
+    
+  </ng-container>
+</ion-content>

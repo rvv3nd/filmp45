@@ -64,6 +64,26 @@ const routes: Routes = [
     path: 'jornadas-juveniles',
     loadChildren: () => import('./jornadas-juveniles/jornadas-juveniles.module').then( m => m.JornadasJuvenilesPageModule)
   },
+  {
+    path: 'categoria/:nombre',
+    loadChildren: () => import('./categoria/categoria.module').then( m => m.CategoriaPageModule)
+  },
+  {
+    path: 'salon/:nombre',
+    loadChildren: () => import('./salon/salon.module').then( m => m.SalonPageModule)
+  },
+  {
+    path: 'editoriales',
+    loadChildren: () => import('./editoriales/editoriales.module').then( m => m.EditorialesPageModule)
+  },
+  {
+    path: 'podcast',
+    loadChildren: () => import('./podcast/podcast.module').then( m => m.PodcastPageModule)
+  },
+  {
+    path: 'anunciantes',
+    loadChildren: () => import('./anunciantes/anunciantes.module').then( m => m.AnunciantesPageModule)
+  },
 ];
 
 @NgModule({

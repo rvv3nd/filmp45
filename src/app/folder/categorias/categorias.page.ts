@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PouchdbService } from 'src/app/services/pouchdb.service';
 import { ThemeService } from 'src/app/services/theme.service';
 
@@ -54,10 +54,12 @@ export class CategoriasPage implements OnInit {
       console.log('categorias', categorias);
       this.found = categorias.length > 0;
       this.categorias = categorias;
+      this.categoriasFiltradas = this.categorias;
     }).catch((error: any) => {
       //console.log('error', error);
     });
   }
+
 
   mapCategoriasConIconos(categorias: string[]): any[] {
     const mapeoIconos: { [nombreCategoria: string]: string } = {
@@ -137,7 +139,16 @@ export class CategoriasPage implements OnInit {
 
     return textoLimpio;
   };
-  
+  categoriasFiltradas: string[] = this.categorias;
+  buscarCategoria(event: any) {
+    console.log('event', event.detail.value.toLowerCase());
+    const valorBusqueda = event.detail.value.toLowerCase();
+    console.log('categorias', this.categorias);
+    this.categoriasFiltradas = this.categorias.filter((categoria) =>
+      categoria.nombre.toLowerCase().includes(valorBusqueda)
+    );
+    console.log('categoriasFiltradas', this.categoriasFiltradas);
+  }
 
 }
 

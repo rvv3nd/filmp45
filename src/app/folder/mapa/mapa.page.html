@@ -8,6 +8,50 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
   <app-not-found *ngIf="!found"/>
+  <ion-segment [(ngModel)]="plantaSeleccionada" class="segment-container-plantas" mode="md">
+    <ion-segment-button value="plantaBaja">
+      Planta Baja
+    </ion-segment-button>
+    <ion-segment-button value="plantaAlta">
+      Planta Alta
+    </ion-segment-button>
+  </ion-segment>
+  <div *ngIf="plantaSeleccionada === 'plantaBaja'">
+    <ion-segment [(ngModel)]="seccionPBSeleccionada" class="segment-container-secciones" mode="md"  (ionChange)="seccionPBChange(seccionPBSeleccionada)">
+      <ion-segment-button *ngFor="let section of sectionsPlantaBaja" [value]="section">
+        {{ section }}
+      </ion-segment-button>
+    </ion-segment>
+    <div *ngIf="seccionPBSeleccionada"  class="ion-padding">
+      <!-- Contenido específico de la sección seleccionada en Planta Baja -->
+      <p>Contenido de la sección: {{ seccionPBSeleccionada }}</p>
+    </div>
+  </div>
+  <div *ngIf="plantaSeleccionada === 'plantaAlta'">
+    <ion-segment [(ngModel)]="seccionPASeleccionada" class="segment-container-secciones" mode="md" (ionChange)="seccionPAChange(seccionPASeleccionada)">
+      <ion-segment-button *ngFor="let section of sectionsPlantaAlta" [value]="section">
+        {{ section }}
+      </ion-segment-button>
+    </ion-segment>
+    <div *ngIf="seccionPASeleccionada">
+      <!-- Contenido específico de la sección seleccionada en Planta Alta -->
+      <p>Contenido de la sección: {{ seccionPASeleccionada }}</p>
+    </div>
+  </div>
+  <ngx-extended-pdf-viewer src="../../../assets/docs/FILPM44_Mapa.pdf"  [height]="'55vh'"></ngx-extended-pdf-viewer> 
+  <ion-list *ngIf="plantaSeleccionada == 'plantaBaja'"  class="ion-padding">
+    <div class="item-custom" *ngFor="let stand of standsPlantaBajaFiltered">
+      <ion-label style="font-weight: 500;">Stand {{ stand.key }}</ion-label>
+      <ion-label style="font-weight: 800; color:#9c209c">{{ stand.value.nombre}}</ion-label>
+    </div>
+  </ion-list>
+  <ion-list *ngIf="plantaSeleccionada == 'plantaAlta'"  class="ion-padding">
+    <ion-item>
+      <div class="item-custom" *ngFor="let stand of standsPlantaAltaFiltered">
+        <ion-label style="font-weight: 500;">Stand {{ stand.key }}</ion-label>
+        <ion-label style="font-weight: 800; color:#9c209c">{{ stand.value.nombre}}</ion-label>
+      </div>
+    </ion-item>
+  </ion-list>
 </ion-content>

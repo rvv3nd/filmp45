@@ -19,6 +19,7 @@
     .titulos{
     font-size: 30px !important;
     font-weight: bolder;
+    color: #EFDBB2;
     text-align: center;
     margin-top: 20px;
     margin-bottom: 20px;
@@ -32,7 +33,7 @@
 
 .logo-container{
     width: 100%;
-    margin-top: 40px;
+
 }
 
 .light-mode-img-logo{
@@ -42,12 +43,13 @@
 
 
 .logo-container{
-    margin-top: 60px;
+
 }
 
 .main-content{
     display: flex;
     flex-direction: column;
+    margin-top: 70px;
     align-items: center;
     --background: #f4f4f4 !important;
 }

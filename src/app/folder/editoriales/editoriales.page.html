@@ -1,0 +1,89 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="P2622C"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Editoriales</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-searchbar 
+  mode="ios"
+  [debounce]="500"
+  animated
+  color="light"
+  show-cancel-button="focus"
+  style="background: #653165;"
+  (ionInput)="buscarEditorial($event)">
+</ion-searchbar>
+  <app-loading *ngIf="loadingService.getIsLoading()"/>
+  <ion-grid *ngIf="!loadingService.getIsLoading()" style="margin-top:10px">
+    <ion-row *ngFor="let editorial of editorialesFiltradas;">
+      <ion-col size="9">
+        <div>
+          <ion-label class="nombre">{{(editorial.nombre)}}</ion-label>
+        </div>
+        <div class="section-container">
+          <ion-label class="floor">{{editorial.section.floor}}</ion-label>
+          <ion-label class="stand">Stand {{(editorial.stand)}}</ion-label>
+          <ion-label class="section">{{editorial.section.name}}</ion-label>
+        </div>
+        <div>
+          <ion-label class="direccion">Dirección: {{(editorial.direccion)}}</ion-label>
+        </div>
+        <div>
+          <ion-label class="tel">Tel: {{(editorial.telefonos)}}</ion-label>
+        </div>
+        <div *ngIf="editorial.director_general">
+          <ion-label class="presidente">Director general: {{(editorial.director_general)}}</ion-label>
+        </div>
+        <div *ngIf="editorial.directora_general">
+          <ion-label class="presidente">Directora general: {{(editorial.directora_general)}}</ion-label>
+        </div>
+        <div *ngIf="editorial.presidente">
+          <ion-label class="presidente">Presidente: {{(editorial.presidente)}}</ion-label>
+        </div>
+        <div *ngIf="editorial.presidenta">
+          <ion-label class="presidenta">Presidenta: {{(editorial.presidenta)}}</ion-label>
+        </div>
+        <div *ngIf="editorial.gerente_general">
+          <ion-label class="gerente_general">Gerente general: {{(editorial.gerente_general)}}</ion-label>
+        </div>
+        <div *ngIf="editorial.directora_de_publicaciones">
+          <ion-label class="directora_de_publicaciones">{{(editorial.directora_de_publicaciones)}}</ion-label>
+        </div>
+        <div *ngIf="editorial.director_de_ventas">
+          <ion-label class="director_de_ventas">{{(editorial.director_de_ventas)}}</ion-label>
+        </div>
+        <div *ngIf="editorial.responsables">
+          <ion-label class="responsables">Responsable: {{(editorial.responsables)}}</ion-label>
+        </div>
+        <div>
+          <ion-label class="mail">Email: {{(editorial.emails)}}</ion-label>
+        </div>
+        <div>
+          <ion-label class="tematica">Temática(s): {{(editorial.tematicas)}}</ion-label>
+        </div>
+
+        <div *ngIf="editorial.editoriales_representadas">
+          <ion-label>Editoriales representadas: {{editorial.editoriales_representadas}}</ion-label>
+        </div>
+      </ion-col>
+      <ion-col size="3" class="link" *ngIf="editorial.paginas_web">
+        <div>
+          <ion-icon name="link-outline" size="large"></ion-icon>
+        </div>
+        <div>
+          <a [href]="editorial.paginas_web" target="_blank">Visitar</a>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <div (click)="scrollToTop()" class="fab-button">
+      <ion-icon size="large" color="light" name="arrow-up-outline"></ion-icon>
+    </div>
+  </ion-fab>
+
+</ion-content>

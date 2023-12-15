@@ -60,6 +60,30 @@ const routes: Routes = [
     loadChildren: () => import('./folder/sobre-nosotros/sobre-nosotros-routing.module').then(m => m.SobreNosotrosPageRoutingModule)
   },
   {
+    path: 'folder/categoria/:nombre',
+    loadChildren: () => import('./folder/categoria/categoria-routing.module').then(m => m.CategoriaPageRoutingModule)
+  },
+  {
+    path: 'folder/salon/:nombre',
+    loadChildren: () => import('./folder/salon/salon-routing.module').then(m => m.SalonPageRoutingModule)
+  },
+  {
+    path: 'folder/horarios',
+    loadChildren: () => import('./folder/horarios/horarios-routing.module').then(m => m.HorariosPageRoutingModule)
+  },
+  {
+    path: 'folder/editoriales',
+    loadChildren: () => import('./folder/editoriales/editoriales-routing.module').then(m => m.EditorialesPageRoutingModule)
+  },
+  {
+    path: 'folder/podcast',
+    loadChildren: () => import('./folder/podcast/podcast-routing.module').then(m => m.PodcastPageRoutingModule)
+  },
+  {
+    path: 'folder/anunciantes',
+    loadChildren: () => import('./folder/anunciantes/anunciantes-routing.module').then( m => m.AnunciantesPageRoutingModule)
+  },
+  {
     path: 'folder/:id',
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
   },

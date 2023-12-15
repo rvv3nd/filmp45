@@ -1,7 +1,3 @@
-.days_container{
-    width:100%;
-}
-
 .actividad-item{
     width: 100%;
     flex-direction: column !important;
@@ -14,10 +10,20 @@
     border-radius: 50px;
 }
 
-.label{
-    white-space: wrap; overflow: hidden; text-overflow: ellipsis;
+.modal-publicitario{
+    height: 100%; /* Ajusta la altura según tus necesidades */
+    max-height: 100vh; /* Establece la altura máxima como el 50% del viewport height */
+    width: 100%;
+    padding-top: 20vh;
+    padding-bottom: 18vh;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #000;
 }
 
-.categoria{
-    font-style: italic;
+.thumbnail{
+    width: 100%;
+    height: 90%;
+    object-fit: cover;
 }
+

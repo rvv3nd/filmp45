@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { LoadingController } from '@ionic/angular';
+import { BehaviorSubject } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,26 +12,34 @@ import { LoadingController } from '@ionic/angular';
  */
 export class LoadingService {
 
-  constructor( private loadingCtrl: LoadingController) { }
+  constructor() { }
 
-  isLoading = false;
+  private loadingSubject = new BehaviorSubject<boolean>(false);
+  isLoading = this.loadingSubject.asObservable();
 
-  async presentLoading() {
-    if (!this.isLoading) {
-      this.isLoading = true;
-      const loading = await this.loadingCtrl.create({
-        message: 'Cargando...',
-        spinner: 'dots'
-      });
-      await loading.present();
-    }
+  setIsLoading(value: boolean) {
+    this.loadingSubject.next(value);
   }
 
-  async dismissLoading() {
-    if (this.isLoading) {
-      this.isLoading = false;
-      await this.loadingCtrl.dismiss();
-    }
+  getIsLoading() {
+    return this.loadingSubject.getValue();
   }
+  // async presentLoading() {
+  //   if (!this.isLoading) {
+  //     this.isLoading = true;
+  //     const loading = await this.loadingCtrl.create({
+  //       message: 'Cargando...',
+  //       spinner: 'dots'
+  //     });
+  //     await loading.present();
+  //   }
+  // }
+
+  // async dismissLoading() {
+  //   if (this.isLoading) {
+  //     this.isLoading = false;
+  //     await this.loadingCtrl.dismiss();
+  //   }
+  // }
 
 }

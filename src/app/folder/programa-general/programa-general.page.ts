@@ -1,180 +1,83 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { PouchdbService } from '../../services/pouchdb.service';
-import { LoadingService } from 'src/app/services/loading.service';
+import { ActividadesComponent } from 'src/app/components/actividades/actividades.component';
+import { IonContent, IonModal, LoadingController } from '@ionic/angular';
+
+import { OverlayEventDetail } from '@ionic/core';
+import { AnunciantesService } from 'src/app/services/anunciantes.service';
 @Component({
   selector: 'app-programa-general',
   templateUrl: './programa-general.page.html',
   styleUrls: ['./programa-general.page.scss'],
 })
-export class ProgramaGeneralPage implements OnInit {
-
+export class ProgramaGeneralPage implements OnInit, AfterViewInit {
+  @ViewChild(ActividadesComponent) actividadesComponent!: ActividadesComponent; // se obtiene el componente hijo para poder llamar a sus metodos
+  @ViewChild(IonContent) ionContent!: IonContent; // se invoca el content para poder hacer scroll hacia arriba con el fab-boton
+  @ViewChild(IonModal) modal!: IonModal; // se invoca el modal para poder cerrarlo desde el padre
   constructor(
     private pouchDBService: PouchdbService,
-    private loadingService: LoadingService
+    private loadingCtrl: LoadingController,
+    private anunciantesServ: AnunciantesService,
   ) { }
 
+  anuncio: any;
   found = true;
   local: any;
-  days = [] 
   actividades : any[] = []
-  selectedDay = 'Obteniendo dias...';
+  
   ngOnInit() {
-    this.loadingService.presentLoading();
     this.local = this.pouchDBService.getLocalDB();
-    this.getDays();
-    // setTimeout(()=>{
-    //   this.found = true
-    // },1000)
+    this.loadingCtrl.create({
+      message: 'Cargando anuncio...'
+    }).then(loading => loading.present().then(() => {
+        this.getRandomPublicidad().then(() => {
+          console.log('anuncio cargado', this.anuncio);
+          
+        });
+    }));
   }
 
-  getEventsByDay(day: string) {
-    this.local.allDocs({
-      include_docs: true,
-      attachments: true
-    }).then((result: any) => {
-      console.log('allDocs', result)
-      let events = result.rows.map((row: any) => {
-        try {
-          if (this.getDayFromDate(row.doc.startDate.substring(0, 10)) === day) {
-            //console.log('row', row);
-            row.doc.activities[0].name = this.limpiarTextoHTML(row.doc.activities[0].name);
-            row.doc.activities[0].authors = this.limpiarTextoHTML(row.doc.activities[0].authors);
-            row.doc.organizer = this.limpiarTextoHTML(row.doc.organizer);
-            row.doc.types[0].name = this.limpiarTextoHTML(row.doc.types[0].name);
-            row.doc.startDate = new Date(row.doc.startDate).getHours() + ':' + new Date(row.doc.startDate).getMinutes() + '0';
-            return row.doc ;
-          }
-        } catch (error) {
-          console.log('error pero no pasa nada', error);
-        }
-      });
-      this.found = events.length > 0;
-      events = events.filter((event: any) => {
-        return event !== undefined;
-      });
-      //ordena el arreglo por hora
-      events.sort((a: any, b: any) => {
-        return a.startDate - b.startDate;
-      });
-      console.log('events', events);
-      this.actividades = events;
-      this.loadingService.dismissLoading();
-    }).catch((error: any) => {
-      console.log('error', error)
-      this.loadingService.dismissLoading();
-    })
+  ngAfterViewInit() {
+    console.log('cargando actividades ngAfterInit', this.actividadesComponent);
+    // Asegúrate de que actividadesComponent no sea null antes de llamar a sus métodos
+    if (this.actividadesComponent) {
+      this.actividadesComponent.getActividadesPorDia(true);
+    }
   }
 
-  getDays() {
-    console.log('local', this.local)
-    this.local.allDocs({
-      include_docs: true,
-      attachments: true
-    }).then((result: any) => {
-      console.log('allDocs', result)
-      this.days = result.rows.map((row: any) => {
-        try {
-          return row.doc.startDate.substring(0, 10);
-        } catch (error) {
-          console.log('error pero no pasa nada', error);
-        }
-      });
-      this.days = this.days.filter((day: string | undefined) => {
-        return day !== undefined;
-      });
-      this.days = [...new Set(this.days)];
-      this.days.sort((a: string, b: string) => {
-        return new Date(a).getTime() - new Date(b).getTime();
-      });
-      //transformar a formato dia - mes
-      this.days = this.days.map((day: string) => {
-        return this.getDayFromDate(day);
-      }) as never[];
-      //console.log('days', this.days);
-      this.selectedDay = this.days[0];
-      this.getEventsByDay(this.selectedDay);
-      this.loadingService.dismissLoading();
-    }).catch((error: any) => {
-      console.log('error', error)
-      this.loadingService.dismissLoading();
-    })
-  }
+  ionViewDidEnter() {
 
-  onSelectedDayChangeFromChild(day: string) {
-    console.log('onSelectedDayChangeFromChild', day);
-    this.selectedDay = day;
-    this.loadingService.presentLoading();
-    this.getEventsByDay(day);
   }
 
   scrollToTop() {
-    console.log('scrollToTop');
-  }
-  private getDayFromDate(date: string) {
-    let newDate = new Date(date);
-    let options: Intl.DateTimeFormatOptions = { weekday: 'long', day: 'numeric' };
-    return newDate.toLocaleDateString('es-MX', options);
+    this.ionContent.scrollToTop(500);
   }
 
-  limpiarTextoHTML(textoHTML: string) {
-    //usando expresiones Regulares limpia el texto de etiquetas HTML
-    // Usando expresiones regulares limpia el texto de etiquetas HTML
-    let textoSinEtiquetas = textoHTML.replace(/<[^>]*>?/gm, '');
+  enlace(url: string) {
+    window.open(url, '_self');
+  }
 
-    // Usando expresiones regulares limpia el texto de todos los elementos como &eacute y los convierte a su caracter correspondiente
-    let textoLimpio: string = textoSinEtiquetas.replace(/&([a-z\d]+|#[xX][a-f\d]+);/gi, (_match, _entity) => {
-      // Replace the void return type with string
-      return entities[_entity] || '';
-    });
-      const entities: { [key: string]: string } = {
-        'amp': '&',
-        'lt': '<',
-        'gt': '>',
-        'quot': '"',
-        'apos': "'",
-        'nbsp': ' ',
-        'iexcl': '¡',
-        'iquest': '¿',
-        'agrave': 'à',
-        'aacute': 'á',
-        'acirc': 'â',
-        'atilde': 'ã',
-        'auml': 'ä',
-        'aring': 'å',
-        'aelig': 'æ',
-        'ccedil': 'ç',
-        'egrave': 'è',
-        'eacute': 'é',
-        'ecirc': 'ê',
-        'euml': 'ë',
-        'igrave': 'ì',
-        'iacute': 'í',
-        'icirc': 'î',
-        'iuml': 'ï',
-        'eth': 'ð',
-        'ntilde': 'ñ',
-        'ograve': 'ò',
-        'oacute': 'ó',
-        'ocirc': 'ô',
-        'otilde': 'õ',
-        'ouml': 'ö',
-        'divide': '÷',
-        'oslash': 'ø',
-        'ugrave': 'ù',
-        'uacute': 'ú',
-        'ucirc': 'û',
-        'uuml': 'ü',
-        'yacute': 'ý',
-        'thorn': 'þ',
-        'yuml': 'ÿ',
-        'OElig': 'Œ',
-        'oelig': 'œ',
-        'Scaron': 'Š',
-        'scaron': 'š',
-        'Yuml': 'Ÿ',
-        'fnof': 'ƒ',
-      };
-      return textoLimpio;
-  };
+  cerrarModal() {
+    this.modal.dismiss();
+  }
+
+  async getRandomPublicidad() {
+    this.anuncio = await this.anunciantesServ.getRandomAnunciante();
+    console.log('anuncio', this.anuncio);
+    console.log('presentando modal...', this.actividadesComponent);
+    this.modal.present().then(() => {
+      setTimeout(() => {
+        this.modal.dismiss();
+      }
+      , 10000);
+    })
+    this.loadingCtrl.dismiss();
+  }
   
+  onWillDismiss(event: Event) {
+    const ev = event as CustomEvent<OverlayEventDetail<string>>;
+    if (ev.detail.role === 'confirm') {
+      console.log('Confirmado');
+    }
+  }
 }

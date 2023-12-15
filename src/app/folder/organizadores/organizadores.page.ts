@@ -11,7 +11,7 @@ export class OrganizadoresPage implements OnInit {
   organizadores = [
     {
       'cargo': 'Presidente honorario',
-      'nombre': 'Dr. Enrique Graue Wiechers',
+      'nombre': 'Dr. Leonardo Lomelí Vanegas',
       'descripcion': 'Rector de la Universidad Nacional Autónoma de México'
     },
     {
@@ -76,11 +76,6 @@ export class OrganizadoresPage implements OnInit {
       "cargo": "SECRETARIO",
       "nombre": "Lic. Fernando Macotela Vargas",
       "descripcion": "Director de la Feria"
-    },
-    {
-      "cargo": "SECRETARIA TÉCNICA",
-      "nombre": "Carmen Luisa González Mendoza",
-      "descripcion": "Subdirectora de la Feria"
     },
     {
       "cargo": "SECRETARIA ADJUNTA",

@@ -11,6 +11,11 @@
 
 }
 
+.links1{
+    font-size: 20px;
+    color: #fff;
+}
+
 .marginT50{
     margin-top: 50px;
 }
@@ -19,7 +24,7 @@
 }
 
 .main-content{
-   
+    overflow: auto;
 }
 
 ion-label, ion-list{
@@ -79,7 +84,7 @@ a{
 }
 
 .redes-container div{
-    margin: 5px;
+    margin: 10px;
 }
 
 .redes-container a {

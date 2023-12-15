@@ -1,0 +1,140 @@
+.actividad-item{
+    padding: 5px 0px 5px 5px;
+}
+
+ion-row{
+    border-bottom: 1px solid #9c209c56;
+}
+
+.actividad-item div{
+    padding: 5px;
+}
+
+.hora-agenda-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+}
+
+.agenda-container{
+    display: flex;
+    flex-direction: column !important;
+    align-items: center;
+    font-size: 15px;
+    padding: 5px;
+    border-radius: 10px;
+    border: #653165 1px solid;
+    width: 90%;
+    height: 60px;
+}
+
+.icon-container{
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.ripple-parent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+}
+
+.recordatorio-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.check-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+}  
+.label-icon{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+}
+
+.notification-icon {
+    color: #653165;
+    margin-right: 10px;
+}
+.notification-icon-on{
+    color: #653165;
+    margin-right: 10px;
+
+}
+
+.recordatorio-container ion-label{
+    font-size: 15px;
+    font-weight: 500;
+    color: #653165;
+    padding: 10px;
+}
+
+.recordatorio-container ion-checkbox{
+padding: 10px;
+}
+
+.label{
+    white-space: wrap; overflow: hidden; text-overflow: ellipsis; padding:2px;
+}
+.categoria{
+    font-style: italic;
+}
+
+.modera{
+    font-weight: 300;
+    font-size: 12px;
+    color: #000000;
+}
+.nombre{
+    font-weight: 500;
+    font-size: 18px;
+    color: #9c209c;
+
+}
+.author{
+    font-weight: 300;
+    font-size: 12px;
+    color: #2c082ce5;
+
+}
+.startDate{
+    color: #653165;
+    font-weight: 800;
+}
+.organizer{
+    font-weight: 400;
+}
+
+.room{
+    color: #653165;
+    font-weight: 500;
+}
+
+.app-days-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .app-days-container.hide {
+    display: none;
+  }

@@ -8,26 +8,30 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
   <app-not-found *ngIf="!found"/>
-  <app-days *ngIf="found" [days]="days" [selectedDay]="selectedDay" (selectedDayChange)="onSelectedDayChangeFromChild($event)"></app-days>
-  <ion-searchbar mode="ios" color="light" animated></ion-searchbar>
-  <ion-fab vertical="bottom" style="--background:#653165" horizontal="end" slot="fixed">
+  <ion-fab vertical="bottom" style="--background:#653165;" horizontal="end" slot="fixed">
     <div (click)="scrollToTop()" class="fab-button">
       <ion-icon size="large" color="light" name="arrow-up-outline"></ion-icon>
     </div>
   </ion-fab>
-  <ion-list *ngIf="actividades.length>0">
-    <ion-item *ngFor="let actividad of actividades" class="actividad-item">
-      <div class="actividad-item">
-        <ion-label class="label">{{actividad?.startDate}} <span style="color: red; font-size: 30px;" *ngIf="actividad.fecha_y_hora_final != null"> a {{actividad.fecha_y_hora_final}} </span></ion-label>
-        <ion-label class="label categoria">{{actividad?.types[0].name}}</ion-label>
-        <ion-label class="label nombre">{{actividad?.activities[0].name}}</ion-label>
-        <ion-label class="label author">{{actividad?.activities[0].authors}}</ion-label>
-        <ion-label class="label ">{{actividad?.organizer}}</ion-label>
-        <ion-label class="label">{{actividad?.room.name}}</ion-label>
-    </div>
-    </ion-item>
-  </ion-list>
-
+  <app-actividades></app-actividades>
+  <!---MODAL de PUBLICIDAD-->
+  <ion-modal mode="ios" trigger="open-modal" (willDismiss)="onWillDismiss($event)"
+    class="modal-publicitario" backdropDismiss="false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="end">
+            <ion-button (click)="cerrarModal()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+          <ion-img [alt]="anuncio.texto_alt" [src]="anuncio.imagen" (click)="enlace(anuncio.url)"/>
+        <!-- Contenido del modal de publicidad-->
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>

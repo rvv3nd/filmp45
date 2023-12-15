@@ -8,8 +8,8 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" [ngClass]="isModeLight ? 'light-mode-content' : '' ">
-  <ion-list class="ion-no-padding" mode="md">
-    <ion-list-header class="ion-no-padding">
+  <div class="ion-no-padding" mode="md">
+    <div class="ion-no-padding">
       <div class="header">
         <ion-label class="ion-padding label-custom">
           <h1>Comité organizador</h1>
@@ -18,20 +18,21 @@
             (click)="toggleOrganizadoresVisibility()"
             [class.hide-list]="!organizadoresVisible"
             name="chevron-down"
+            size="large"
             class="toggle-icon"></ion-icon>
           </ion-buttons>
         </ion-label>
         <ion-img style="margin-top: 20px;" src="../../../assets/images/unam-logo.png"></ion-img>
       </div>
-    </ion-list-header>
-    <ion-item *ngFor="let organizador of organizadores;" [hidden]="!organizadoresVisible">
+    </div>
+    <div *ngFor="let organizador of organizadores;" [hidden]="!organizadoresVisible">
       <div class="item">
         <div class="cargo">{{organizador.cargo}}</div>
         <div class="nombre">{{organizador.nombre}}</div>
         <div class="description">{{organizador.descripcion}}</div>
       </div>
-    </ion-item>
-    <ion-list-header class="ion-no-padding">
+    </div>
+    <div class="ion-no-padding">
       <div class="header">
         <ion-label class="ion-padding label-custom">
           <h1>Comité Ejecutivo</h1>
@@ -39,20 +40,21 @@
             <ion-icon
             (click)="toggleOrganizadoresVisibility2()"
             [class.hide-list]="!organizadoresVisible2"
+            size="large"
             name="chevron-down"
             class="toggle-icon2"></ion-icon>
           </ion-buttons>
         </ion-label>
         <ion-img style="margin-top: 20px;" src="../../../assets/images/fi-logo.png"></ion-img>
       </div>
-    </ion-list-header>
-    <ion-item *ngFor="let organizador of organizadores2">
+    </div>
+    <div *ngFor="let organizador of organizadores2"  [hidden]="!organizadoresVisible2">
       <div class="item">
         <div class="cargo">{{organizador.cargo}}</div>
         <div class="nombre">{{organizador.nombre}}</div>
         <div class="description">{{organizador.descripcion}}</div>
       </div>
-    </ion-item>
-  </ion-list>
+    </div>
+  </div>
 
 </ion-content>

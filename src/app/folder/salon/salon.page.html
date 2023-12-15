@@ -1,0 +1,17 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="P2622C"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{salon}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-fab vertical="bottom" style="--background:#653165" horizontal="end" slot="fixed">
+    <div (click)="scrollToTop()" class="fab-button">
+      <ion-icon size="large" color="light" name="arrow-up-outline"></ion-icon>
+    </div>
+  </ion-fab>
+  <app-actividades [room]="salon"></app-actividades>
+</ion-content>

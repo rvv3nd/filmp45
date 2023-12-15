@@ -1,0 +1,259 @@
+<ion-searchbar 
+  mode="ios"
+  [debounce]="500"
+  animated
+  color="light"
+  placeholder="Buscar"
+  show-cancel-button="focus"
+  cancel-button-text="Cancelar"
+  style="background: #653165;"
+  (ionFocus)="onSearchbarFocus()"
+  (ionBlur)="onSearchBlur()"
+  (ionInput)="buscarActividad($event)"
+  >
+</ion-searchbar>
+<app-not-found *ngIf="!found" [tipo]="'agenda'"></app-not-found>
+<app-days *ngIf="found" class="app-days-container" [ngClass]="{'hide': !datePikcerIsAvailable}" (selectedDayChange)="onSelectedDayChangeFromChild($event, filter)"></app-days>
+<app-loading *ngIf="loadingService.getIsLoading()"/>
+<div *ngIf="!loadingService.getIsLoading() && actividadesFilter.length == 0 && found" style="text-align: center; margin-top: 30px; font-size: 20px;">
+  <ion-label class="ion-text-center" style="font-family: 'Gotham-Medium'; ">No hay resultados</ion-label>
+</div>
+<ion-grid *ngIf="!loadingService.getIsLoading()">
+  <!-- <ion-row class="actividad-item" style="font-family: 'Gotham-Medium';">
+    <ion-col size="9" class="actividad-item">
+      <div class="hora-agenda-container">
+        <ion-label class="label startDate"> <span *ngIf="!datePikcerIsAvailable">jueves 1 de febrero</span> 11:00 horas </ion-label>
+      </div>
+      <div >
+        <ion-label class="label categoria">Categoria de categorias</ion-label>
+      </div>
+      <div >
+        <ion-label class="label nombre">Actividad de prueba para ver el botón cuadrado</ion-label>
+        <ion-label class="label author">No one knows why</ion-label>
+      </div>
+      <div >
+        <ion-label class="label modera">Modera el moderador de moderadores</ion-label>
+      </div>
+      <div>
+      <ion-label class="label organizer">Grupo MEXMEN</ion-label>
+      </div>
+      <div>
+      <ion-label class="label room">Salon imaginario</ion-label>
+      </div>
+    </ion-col>
+    <ion-col size="3" style="display: flex;justify-content: center; padding:2px;">
+      <div *ngIf="filter != 'agenda'" class="ion-activatable ripple-parent agenda-container" (click)="toggleFake()" style="padding:2px">
+        <ion-button mode="md" color="P2622C" fill="outline" *ngIf="!fakeAgendada" style="font-size: 10px; padding: 5px;">Agendar</ion-button>
+        <ion-button mode="md" color="danger" fill="outline" *ngIf="fakeAgendada" style="font-size: 8px; padding: 5px;">Desagendar</ion-button>
+      </div>
+      <div *ngIf="filter == 'agenda'" class="ion-activatable ripple-parent agenda-container" (click)="toggleFake()">
+        <ion-icon color="P2622C" size="large" name="notifications-outline"></ion-icon>
+        <ion-label>Editar</ion-label>
+      </div>
+    </ion-col>
+  </ion-row> -->
+  <ion-row *ngFor="let actividad of actividadesFilter ; index as i" class="actividad-item" style="font-family: 'Gotham-Medium';">
+      <ion-col size="9" class="actividad-item">
+        <div class="hora-agenda-container">
+          <ion-label class="label startDate"> <span *ngIf="!datePikcerIsAvailable">{{(actividad?.date).charAt(0).toUpperCase()}}{{actividad?.date.slice(1)}}</span> {{formatearHora(actividad?.hora)}} <span *ngIf="actividad?.hora_final">a {{formatearHora(actividad?.hora_final)}}</span> horas </ion-label>
+        </div>
+        <div *ngFor="let cat of actividad?.indexes">
+          <ion-label class="label categoria">{{cat.name}}</ion-label>
+        </div>
+        <div *ngIf="actividad?.activities[0]">
+          <ion-label class="label nombre">{{actividad?.activities[0].name}}</ion-label>
+          <ion-label *ngIf="actividad?.activities[0].authors" class="label author">{{actividad?.activities[0].authors}}</ion-label>
+        </div>
+        <div *ngIf="actividad?.activities[0].moderators != null">
+          <ion-label class="label modera">{{actividad?.activities[0].moderators}}</ion-label>
+        </div>
+        <div *ngIf="actividad?.organizer">
+        <ion-label class="label organizer">{{actividad?.organizer}}</ion-label>
+        </div>
+        <div>
+        <ion-label class="label room">{{actividad?.room.name}}</ion-label>
+        </div>
+      </ion-col>
+      <ion-col size="3" class="ion-no-padding" style="display: flex;justify-content: center; align-items: center;">
+        <div *ngIf="filter != 'agenda'" class="ion-activatable ripple-parent agenda-container" (click)="toggleAgendar(i)">
+            <ion-icon *ngIf="!actividad.agendada" size="large" name="bookmark-outline" color="P2622C"></ion-icon>
+            <ion-label *ngIf="!actividad.agendada">Agendar</ion-label>
+            <ion-icon *ngIf="actividad.agendada" size="large" name="bookmark" color="P2622C"></ion-icon>
+            <ion-label *ngIf="actividad.agendada" style="font-size: 14px;">Agendada</ion-label>
+        </div>
+        <div *ngIf="filter == 'agenda'" class="ion-activatable ripple-parent agenda-container" (click)="openActividad(actividad)">
+          <ion-icon color="P2622C" size="large" name="notifications-outline"></ion-icon>
+          <ion-label>Editar</ion-label>
+        </div>
+      </ion-col>
+  </ion-row>
+</ion-grid>
+<ion-action-sheet
+[isOpen]="isActionSheetOpen"
+header="Actions"
+(didDismiss)="setOpen(false)">
+</ion-action-sheet>
+<!--Modal para agendar-->
+<ion-modal #modalAgendar mode="ios" trigger="open-modal" (willDismiss)="onWillDismiss($event)" style="font-family: 'Gotham-Medium';">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="cancel()">Cancelar</ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+          <ion-button (click)="confirm()" [disabled]="btnguardaractivado" [strong]="true">Guardar</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding" style="font-family: 'Gotham-Medium';">
+        <div class="actividad-item">
+          <div>
+            <ion-label class="label startDate">{{obtenerDiaMesHora(actividadModal?.startDate)}} <span *ngIf="actividadModal?.fecha_y_hora_final != null"> a {{actividadModal?.hora_final}}0 horas</span>.</ion-label>
+          </div>
+          <div>
+            <ion-label *ngFor="let cat of actividadModal?.indexes" class="label categoria">{{cat.name}}</ion-label>
+          </div>
+          <div>
+            <ion-label class="label nombre">{{actividadModal?.activities[0].name}} <span class="label author">{{actividadModal?.activities[0].authors}}</span></ion-label>
+          </div>
+          <div *ngIf="actividadModal?.organizer">
+            <ion-label class="label organizer">{{actividadModal?.organizer}}</ion-label>
+          </div>
+          <div>
+            <ion-label class="label room">{{actividadModal?.room.name}}</ion-label>
+          </div>
+        </div>
+      <div class="recordatorio-container" >
+        <ion-label class="recordatorio-label">
+          Se enviará una o varias notificaciones para recordarte la fecha de la actividad.<strong> Selecciona al menos una</strong> 
+        </ion-label>
+        <div class="check-container">
+          <div class="label-icon">
+            <ion-icon *ngIf="checkboxes.horaExacta" size="large" class="notification-icon-on" name="notifications-outline"></ion-icon>
+            <ion-icon *ngIf="!checkboxes.horaExacta" size="large" class="notification-icon" name="notifications-off-outline"></ion-icon>
+              <ion-label>
+                Hora exacta
+              </ion-label>
+            </div>
+            <ion-toggle (ionChange)="checkboxes.horaExacta = !checkboxes.horaExacta"></ion-toggle>
+        </div>
+        <div class="check-container" >
+          <div class="label-icon">
+            <ion-icon *ngIf="checkboxes.quinceMinutosAntes" size="large" class="notification-icon-on" name="notifications-outline"></ion-icon>
+            <ion-icon *ngIf="!checkboxes.quinceMinutosAntes" size="large" class="notification-icon" name="notifications-off-outline"></ion-icon>
+            <ion-label>
+              15 minutos antes
+            </ion-label>
+          </div>
+          <ion-toggle (ionChange)="checkboxes.quinceMinutosAntes = !checkboxes.quinceMinutosAntes"></ion-toggle>
+        </div>
+        <div class="check-container">
+          <div class="label-icon">
+            <ion-icon *ngIf="checkboxes.unaHoraAntes" size="large" class="notification-icon-on" name="notifications-outline"></ion-icon>
+            <ion-icon *ngIf="!checkboxes.unaHoraAntes" size="large" class="notification-icon" name="notifications-off-outline"></ion-icon>
+            <ion-label>
+              1 hora antes
+            </ion-label>
+          </div>
+          <ion-toggle (ionChange)="checkboxes.unaHoraAntes = !checkboxes.unaHoraAntes"></ion-toggle>
+        </div>
+        <div class="check-container">
+          <div class="label-icon">
+            <ion-icon *ngIf="checkboxes.unDiaAntes" size="large" class="notification-icon-on" name="notifications-outline"></ion-icon>
+            <ion-icon *ngIf="!checkboxes.unDiaAntes" size="large" class="notification-icon" name="notifications-off-outline"></ion-icon>
+            <ion-label>
+              1 día antes
+            </ion-label>
+          </div>
+          <ion-toggle (ionChange)="checkboxes.unDiaAntes = !checkboxes.unDiaAntes"></ion-toggle>
+        </div>
+      </div>
+      <ion-button style="margin-top: 50px;" fill="outline" [disabled]="btnguardaractivado"  expand="block" (click)="confirm()" [strong]="true">Agendar</ion-button>
+      <ion-button style="margin-top: 15px;" color="danger" fill="outline" expand="block" (click)="cancel()" [strong]="true">Cancelar</ion-button>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+<!--Modal para editar la agenda-->
+<ion-modal #modalEditar mode="ios" trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="cancelEdicion()">Cancelar</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <div class="actividad-item">
+        <div>
+          <ion-label class="label startDate">{{obtenerDiaMesHora(actividadModal?.startDate)}} <span *ngIf="actividadModal?.fecha_y_hora_final != null"> a {{actividadModal?.hora_final}}0 horas</span>.</ion-label>
+        </div>
+        <div>
+          <ion-label *ngFor="let cat of actividadModal?.indexes" class="label categoria">{{cat.name}}</ion-label>
+        </div>
+        <div>
+          <ion-label class="label nombre">{{actividadModal?.activities[0].name}} <span class="label author">{{actividadModal?.activities[0].authors}}</span></ion-label>
+        </div>
+        <div>
+          <ion-label class="label organizer">{{actividadModal?.organizer}}</ion-label>
+        </div>
+        <div>
+          <ion-label class="label room">{{actividadModal?.room.name}}</ion-label>
+        </div>
+      </div>
+      <div class="recordatorio-container" >
+        <div class="check-container" (click)="checkChanges()">
+          <div class="label-icon">
+            <ion-icon *ngIf="actividadModal.recordatorios.horaExacta" size="large" class="notification-icon-on" name="notifications-outline"></ion-icon>
+            <ion-icon *ngIf="!actividadModal.recordatorios.horaExacta" size="large" class="notification-icon" name="notifications-off-outline"></ion-icon>
+              <ion-label>
+                Hora exacta
+              </ion-label>
+            </div>
+            <ion-toggle [(ngModel)]="actividadModal.recordatorios.horaExacta"></ion-toggle>
+        </div>
+        <div class="check-container" (click)="checkChanges()" >
+          <div class="label-icon">
+          <ion-icon *ngIf="actividadModal.recordatorios.quinceMinutosAntes" size="large" class="notification-icon-on" name="notifications-outline"></ion-icon>
+          <ion-icon *ngIf="!actividadModal.recordatorios.quinceMinutosAntes" size="large" class="notification-icon" name="notifications-off-outline"></ion-icon>
+          <ion-label>
+            15 minutos antes
+          </ion-label>
+          </div>
+          <ion-toggle [(ngModel)]="actividadModal.recordatorios.quinceMinutosAntes"></ion-toggle>
+        </div>
+        <div class="check-container" (click)="checkChanges()">
+          <div class="label-icon">
+            <ion-icon *ngIf="actividadModal.recordatorios.unaHoraAntes" size="large" class="notification-icon-on" name="notifications-outline"></ion-icon>
+            <ion-icon *ngIf="!actividadModal.recordatorios.unaHoraAntes" size="large" class="notification-icon" name="notifications-off-outline"></ion-icon>
+            <ion-label>
+              1 hora antes
+            </ion-label>
+          </div>
+          <ion-toggle [(ngModel)]="actividadModal.recordatorios.unaHoraAntes" ></ion-toggle>
+        </div>
+        <div class="check-container" (click)="checkChanges()">
+          <div class="label-icon">
+            <ion-icon *ngIf="actividadModal.recordatorios.unDiaAntes" size="large" class="notification-icon-on" name="notifications-outline"></ion-icon>
+            <ion-icon *ngIf="!actividadModal.recordatorios.unDiaAntes" size="large" class="notification-icon" name="notifications-off-outline"></ion-icon>
+            <ion-label>
+              1 día antes
+            </ion-label>
+          </div>
+          <ion-toggle [(ngModel)]="actividadModal.recordatorios.unDiaAntes"></ion-toggle>
+        </div>
+      </div>
+      <div class="ion-margin">
+        <ion-button mode="ios" style="margin-top: 15px;" color="primary" fill="outline" expand="block" (click)="guardarCambios(actividadModal)" [strong]="true" [disabled]="!changes">Guardar cambios</ion-button>
+        <ion-button mode="ios" style="margin-top: 15px;" color="warning" fill="outline" expand="block" (click)="cancelEdicion()" [strong]="true">Cancelar cambios</ion-button>
+        <ion-button mode="ios" style="margin-top: 15px;" color="danger" fill="outline" expand="block" (click)="confirmCancelar(actividadModal)" [strong]="true">Eliminar de mi agenda</ion-button>
+      </div>
+      <ion-action-sheet
+      [isOpen]="isActionSheetOpen"
+      header="Actions"
+      (didDismiss)="setOpen(false)">
+      </ion-action-sheet>
+    </ion-content>
+  </ng-template>
+</ion-modal>

@@ -50,6 +50,7 @@ export class SalonesPage implements OnInit {
       console.log('salones', salones);
       this.found = salones.length > 0;
       this.salones = salones;
+      this.salonesFiltradas = salones;
     }).catch((error: any) => {
       //console.log('error', error);
     }); 
@@ -116,5 +117,16 @@ export class SalonesPage implements OnInit {
     return textoLimpio;
   }
 
+
+  salonesFiltradas: string[] = this.salones;
+  buscarSalon(event: any) {
+    console.log('event', event.detail.value.toLowerCase());
+    const valorBusqueda = event.detail.value.toLowerCase();
+    this.salonesFiltradas = [];
+    this.salonesFiltradas = this.salones.filter((salon) =>
+      salon.toLowerCase().includes(valorBusqueda)
+    );
+    console.log('categoriasFiltradas', this.salonesFiltradas);
+  }
   
 }

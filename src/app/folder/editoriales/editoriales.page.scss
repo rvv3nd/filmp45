@@ -1,0 +1,109 @@
+ion-row{
+    border-bottom: 1px solid rgba(156, 32, 156, 0.337254902);
+}
+
+ion-label{
+    display: block; 
+    width: 100%;
+    padding: 1px;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: left;
+}
+
+.fab-button{ 
+    background:#653165 !important;
+    padding: 10px;
+    border-radius: 50px;
+}
+
+.section-container ion-label{
+    width: 33%;
+    margin: 1px;
+    text-align: center;
+}
+
+.nombre{
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color:#653165;
+}
+
+.direccion{
+    font-size: 15px;
+    font-weight: 100;
+    color: #000000;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.tel{
+    font-size: 14px;
+    font-weight: 200;
+    color: #000000;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.mail{
+    font-size: 14px;
+    font-weight: 200;
+    color: #000000;
+    margin-bottom: 10px;
+}
+
+.tematica{
+    font-size: 14px;
+    font-weight: 700;
+    color:#9c209c;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+.responsable{
+    font-size: 14px;
+    font-weight: 350;
+    margin-top: 10px;
+    margin-bottom: 2px;
+}
+
+.stand{
+    background-color: #653165;
+    color: #fff;
+}
+
+.floor{
+    background-color: #EFDBB2;
+    color: #000000;
+
+}
+
+.section{
+    background-color: #EFDBB2;
+    color: #000000;
+}
+
+.section-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.section-container ion-label{
+    padding: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.link{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

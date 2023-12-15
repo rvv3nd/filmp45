@@ -8,6 +8,11 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <app-days [days]="days"></app-days>
-  <app-not-found *ngIf="!found"/>
+  <app-not-found *ngIf="!found" />
+  <app-actividades></app-actividades>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <div (click)="scrollToTop()" class="fab-button">
+      <ion-icon size="large" color="light" name="arrow-up-outline"></ion-icon>
+    </div>
+  </ion-fab>
 </ion-content>

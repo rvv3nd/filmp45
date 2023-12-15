@@ -1,0 +1,66 @@
+ion-item{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid #ccc;
+
+}
+
+.actividad-item{
+    width: 100%;
+    flex-direction: column !important;
+    text-align: start;
+    padding: 16px;
+}
+
+.row-custom{
+    display: flex;
+    align-items: center;
+}
+.fab-button{ 
+    background:#653165 !important;
+    padding: 10px;
+    border-radius: 50px;
+}
+
+.label{
+    white-space: wrap; overflow: hidden; text-overflow: ellipsis; padding:2px;
+}
+.categoria{
+    font-style: italic;
+}
+
+.nombre{
+    font-weight: 500;
+    font-size: 18px;
+    color: #9c209c;
+
+}
+.author{
+    font-weight: 300;
+    font-size: 12px;
+    color: #2c082c;
+
+}
+.startDate{
+    color: #653165;
+    font-weight: 800;
+}
+.organizer{
+    font-weight: 400;
+}
+
+.room{
+    color: #653165;
+    font-weight: 500;
+}
+
+.editar-container{
+    display: flex;
+    flex-direction: column !important;
+    align-items: center;
+    font-size: 15px;
+}
