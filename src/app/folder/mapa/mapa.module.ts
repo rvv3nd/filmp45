@@ -7,7 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { MapaPageRoutingModule } from './mapa-routing.module';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { MapaPage } from './mapa.page';
-import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+
 
 @NgModule({
   imports: [
@@ -16,7 +17,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     IonicModule,
     MapaPageRoutingModule,
     ComponentsModule,
-    NgxExtendedPdfViewerModule
+    PdfViewerModule
   ],
   declarations: [MapaPage]
 })

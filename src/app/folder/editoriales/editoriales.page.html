@@ -18,6 +18,7 @@
   (ionInput)="buscarEditorial($event)">
 </ion-searchbar>
   <app-loading *ngIf="loadingService.getIsLoading()"/>
+  <p class="ion-padding" *ngIf="sinResultados">No hubo resultados para esta busqueda</p>
   <ion-grid *ngIf="!loadingService.getIsLoading()" style="margin-top:10px">
     <ion-row *ngFor="let editorial of editorialesFiltradas;">
       <ion-col size="9">
@@ -30,10 +31,10 @@
           <ion-label class="section">{{editorial.section.name}}</ion-label>
         </div>
         <div>
-          <ion-label class="direccion">Dirección: {{(editorial.direccion)}}</ion-label>
+          <ion-label [ngClass]="isLightMode ? 'direccion-light' : 'direccion'">Dirección: {{(editorial.direccion)}}</ion-label>
         </div>
         <div>
-          <ion-label class="tel">Tel: {{(editorial.telefonos)}}</ion-label>
+          <ion-label  [ngClass]="isLightMode ? 'tel-light' : 'tel'">Tel: {{(editorial.telefonos)}}</ion-label>
         </div>
         <div *ngIf="editorial.director_general">
           <ion-label class="presidente">Director general: {{(editorial.director_general)}}</ion-label>
@@ -51,16 +52,16 @@
           <ion-label class="gerente_general">Gerente general: {{(editorial.gerente_general)}}</ion-label>
         </div>
         <div *ngIf="editorial.directora_de_publicaciones">
-          <ion-label class="directora_de_publicaciones">{{(editorial.directora_de_publicaciones)}}</ion-label>
+          <ion-label class="directora_de_publicaciones">Directora de publicaciones{{(editorial.directora_de_publicaciones)}}</ion-label>
         </div>
         <div *ngIf="editorial.director_de_ventas">
-          <ion-label class="director_de_ventas">{{(editorial.director_de_ventas)}}</ion-label>
+          <ion-label class="director_de_ventas">Director de venta {{(editorial.director_de_ventas)}}</ion-label>
         </div>
         <div *ngIf="editorial.responsables">
           <ion-label class="responsables">Responsable: {{(editorial.responsables)}}</ion-label>
         </div>
         <div>
-          <ion-label class="mail">Email: {{(editorial.emails)}}</ion-label>
+          <ion-label  [ngClass]="isLightMode ? 'mail-light' : 'mail'">Email: {{(editorial.emails)}}</ion-label>
         </div>
         <div>
           <ion-label class="tematica">Temática(s): {{(editorial.tematicas)}}</ion-label>

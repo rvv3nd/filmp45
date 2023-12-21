@@ -34,20 +34,40 @@ ion-label{
 .direccion{
     font-size: 15px;
     font-weight: 100;
-    color: #000000;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.direccion-light{
+    font-size: 15px;
+    font-weight: 100;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: #000000;
 }
 
 .tel{
     font-size: 14px;
     font-weight: 200;
-    color: #000000;
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
+.tel-light{
+    font-size: 14px;
+    font-weight: 200;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: #000000;
+}
+
 .mail{
+    font-size: 14px;
+    font-weight: 200;
+    margin-bottom: 10px;
+}
+
+.mail-light{
     font-size: 14px;
     font-weight: 200;
     color: #000000;

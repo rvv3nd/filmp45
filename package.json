@@ -31,11 +31,11 @@
     "animate.css": "^4.1.1",
     "date-fns": "^2.30.0",
     "ionicons": "^7.0.0",
-    "ngx-extended-pdf-viewer": "^18.1.10",
+    "ng2-pdf-viewer": "^10.0.0",
     "pouchdb": "^7.3.1",
     "pouchdb-adapter-cordova-sqlite": "^2.0.8",
     "pouchdb-quick-search": "^1.1.2",
-    "rxjs": "~7.8.0",
+    "rxjs": "^7.8.0",
     "tslib": "^2.3.0",
     "updates": "^15.0.4",
     "zone.js": "~0.13.0"

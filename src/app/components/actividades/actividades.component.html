@@ -10,6 +10,7 @@
   (ionFocus)="onSearchbarFocus()"
   (ionBlur)="onSearchBlur()"
   (ionInput)="buscarActividad($event)"
+  (ionCancel)="onSearchCancel()"
   >
 </ion-searchbar>
 <app-not-found *ngIf="!found" [tipo]="'agenda'"></app-not-found>
@@ -53,7 +54,7 @@
     </ion-col>
   </ion-row> -->
   <ion-row *ngFor="let actividad of actividadesFilter ; index as i" class="actividad-item" style="font-family: 'Gotham-Medium';">
-      <ion-col size="9" class="actividad-item">
+      <ion-col size="8" class="actividad-item">
         <div class="hora-agenda-container">
           <ion-label class="label startDate"> <span *ngIf="!datePikcerIsAvailable">{{(actividad?.date).charAt(0).toUpperCase()}}{{actividad?.date.slice(1)}}</span> {{formatearHora(actividad?.hora)}} <span *ngIf="actividad?.hora_final">a {{formatearHora(actividad?.hora_final)}}</span> horas </ion-label>
         </div>
@@ -74,7 +75,7 @@
         <ion-label class="label room">{{actividad?.room.name}}</ion-label>
         </div>
       </ion-col>
-      <ion-col size="3" class="ion-no-padding" style="display: flex;justify-content: center; align-items: center;">
+      <ion-col size="4" class="ion-no-padding" style="display: flex;justify-content: center; align-items: center;">
         <div *ngIf="filter != 'agenda'" class="ion-activatable ripple-parent agenda-container" (click)="toggleAgendar(i)">
             <ion-icon *ngIf="!actividad.agendada" size="large" name="bookmark-outline" color="P2622C"></ion-icon>
             <ion-label *ngIf="!actividad.agendada">Agendar</ion-label>

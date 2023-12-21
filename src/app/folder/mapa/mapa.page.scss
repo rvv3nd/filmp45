@@ -1,6 +1,7 @@
+
 .segment-container-plantas{
     max-width: 100vw;
-    height: 90px;
+    height: 50px;
     overflow-x: auto;
     display: flex;
     justify-content: center;
@@ -8,7 +9,7 @@
 }
 .segment-container-secciones{
     max-width: 100vw;
-    height: 90px;
+    height: 70px;
     overflow-x: auto;
     display: flex;
     padding: 10px;
@@ -46,3 +47,19 @@
 ion-segment-button{
     color: #efdbb282;
 }
+
+.pdf-viewer{
+    width: 90%; 
+    height: 300px;
+    margin-left: 5%;
+    margin-top: 5px;
+    margin-bottom: -15px;
+} 
+
+.pdf-viewer-clicked{
+    width: 100%; 
+    height: 70%;
+    margin-top: 5px;
+    margin-bottom: -15px;
+}
+

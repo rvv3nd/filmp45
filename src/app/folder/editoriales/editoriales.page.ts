@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonContent } from '@ionic/angular';
 import { LoadingService } from 'src/app/services/loading.service';
 import { PouchdbService } from 'src/app/services/pouchdb.service';
+import { ThemeService } from 'src/app/services/theme.service';
 
 @Component({
   selector: 'app-editoriales',
@@ -15,11 +16,17 @@ export class EditorialesPage implements OnInit {
   constructor(
     private pouchDB : PouchdbService,
     public loadingService: LoadingService,
+    private themeService: ThemeService
   ) { }
-
+  sinResultados = false;
+  isLightMode = true;
   ngOnInit() {
     this.loadingService.setIsLoading(true);
     console.log(this.loadingService.getIsLoading());
+    this.themeService.isModeLigth$.subscribe((isLightTheme) => {
+      this.isLightMode = isLightTheme;
+      console.log('isLightTheme', isLightTheme);
+    });
   }
 
   ngAfterViewInit() {
@@ -55,9 +62,16 @@ export class EditorialesPage implements OnInit {
       this.editorialesFiltradas = this.editoriales.filter((editorial) => {
         const nombre = (editorial as any).nombre.toLowerCase();
         const tematicas = (editorial as any).tematicas.toLowerCase();
-        return nombre.indexOf(texto.toLowerCase()) > -1 || tematicas.indexOf(texto.toLowerCase()) > -1;
+        const direccion = (editorial as any).direccion.toLowerCase();
+        return nombre.indexOf(texto.toLowerCase()) > -1 || tematicas.indexOf(texto.toLowerCase()) > -1 || direccion.indexOf(texto.toLowerCase()) > -1 ;
       });
+      if(this.editorialesFiltradas.length == 0){
+        this.sinResultados = true;
+      }else {
+        this.sinResultados = false;
+      }
     }else{
+      this.sinResultados = false;
       this.editorialesFiltradas = this.editoriales;
     }
     console.log('editoriales filtradas', this.editorialesFiltradas);

@@ -26,9 +26,16 @@ ion-row{
     padding: 5px;
     border-radius: 10px;
     border: #653165 1px solid;
-    width: 90%;
+    width: 80%;
     height: 60px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
 }
+
+// .agenda-container.selected{
+//     background-color: #EFDBB2;
+//     color: #9c209c;
+
+// } 
 
 .icon-container{
 
@@ -103,7 +110,7 @@ padding: 10px;
 .modera{
     font-weight: 300;
     font-size: 12px;
-    color: #000000;
+
 }
 .nombre{
     font-weight: 500;

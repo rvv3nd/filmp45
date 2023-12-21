@@ -18,6 +18,10 @@ export class MapaPage implements OnInit, AfterViewInit {
   ngOnInit() {
     
   }
+  srcPA = 'http://132.248.63.210:5984/filmineria/969efe412ff3dc986fac25cdc10044ff/Copia%20de%20PLANTA%20ALTA%2045-2.pdf';
+  srcPB = "http://132.248.63.210:5984/filmineria/969efe412ff3dc986fac25cdc10002f0/Copia%20de%2045_planos_print_pbaja.pdf";
+  clicked = false;
+  zoomLevel = 1;
   plantaSeleccionada = 'plantaBaja';
   seccionPBSeleccionada: string | undefined;
   seccionPASeleccionada: string | undefined;
@@ -27,6 +31,7 @@ export class MapaPage implements OnInit, AfterViewInit {
   standsPlantaAlta = [] as any;
   standsPlantaAltaFiltered = [] as any;
   sectionsPlantaAlta = [] as any;
+  doubleBack = false;
   ngAfterViewInit() {
     this.loading().then(() => {
       this.pouchService.getStands().then((stands) => {
@@ -84,7 +89,46 @@ export class MapaPage implements OnInit, AfterViewInit {
     })
   }
 
+  adjustZoom(factor: number): void {
+    const aux = this.zoomLevel * factor;
+    if(aux > this.zoomLevel){
+      //esto ocurre cuando se hace zoom in, el pdf se muestra en true size
+      this.clicked = true;
+      this.doubleBack = false;
+    }
+    this.zoomLevel = aux;
+    if(this.zoomLevel < 1){
+      //hasta que el zoom level sea menor a 1, el pdf se muestra en true size
+      this.zoomLevel = 1;
+      if (this.doubleBack) {
+        this.clicked = false;
+      }
+      else{
+        this.doubleBack = true;
+      }
+    }else if(this.zoomLevel > 5){
+      this.zoomLevel = 5;
+    }
+  }
+
+  toggleZoom(){
+    this.clicked = !this.clicked;
+  }
+
+  plantaChange(){
+    this.clicked = false;
+  }
+
+  fullscreen(){
+    this.clicked = true;
+  }
+  fullscreent(){
+    this.clicked = false;
+  }
+  
+
   seccionPBChange(value: any){
+
     this.standsPlantaBajaFiltered = this.standsPlantaBaja.filter((stand: any) => {
       if(stand.value.section.name == value){
         return stand;
@@ -96,6 +140,7 @@ export class MapaPage implements OnInit, AfterViewInit {
   }
 
   seccionPAChange(value: any){
+
     this.standsPlantaAltaFiltered = this.standsPlantaAlta.filter((stand: any) => {
       if(stand.value.section.name == value){
         return stand;

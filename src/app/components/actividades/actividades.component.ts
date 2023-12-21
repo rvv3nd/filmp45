@@ -557,6 +557,11 @@ compararHoras(horaA: string, horaB: string): number {
     
   }
 
+  onSearchCancel(){
+    console.log('onSearchCancel');
+    this.valorBusqueda = '';
+    this.buscarActividad({detail: {value: ''}});
+  }
   busqueda(allActividades: any[]){
     console.log('busqueda', this.valorBusqueda);
     this.actividadesFilter = allActividades.filter((actividad: any) => {
