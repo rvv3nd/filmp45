@@ -71,12 +71,32 @@
           <ion-label>Editoriales representadas: {{editorial.editoriales_representadas}}</ion-label>
         </div>
       </ion-col>
-      <ion-col size="3" class="link" *ngIf="editorial.paginas_web">
-        <div>
-          <ion-icon name="link-outline" size="large"></ion-icon>
+      <ion-col size="3" *ngIf="editorial.paginas_web" style="display:flex;justify-content: center; align-items: center;">
+        <div *ngIf="editorial.id  == '0626e3a8-ceec-49c6-bc6e-1afbf504751b'"> <!--Apublicaciones-->
+          <div *ngFor="let url of editorial.paginas_web.split(' / ')"  class="link" style="padding:5px">
+            <div>
+              <ion-icon name="link-outline" size="large"></ion-icon>
+            </div>
+            <div>
+              <a [href]="url.trim()" target="_blank">Visitar</a>
+            </div>
+          </div>
         </div>
-        <div>
-          <a [href]="editorial.paginas_web" target="_blank">Visitar</a>
+        <div *ngIf="editorial.id  == '802b762a-e21a-4413-a7b2-b8a419a191c7'" class="link"> <!--Apublicaciones-->
+          <div>
+            <ion-icon name="link-outline" size="large"></ion-icon>
+          </div>
+          <div>
+            <a [href]="editorial.paginas_web.split(' y ')[0]" target="_blank">Visitar</a>
+          </div>
+        </div>
+        <div *ngIf="editorial.id  != '0626e3a8-ceec-49c6-bc6e-1afbf504751b' && editorial.id != '802b762a-e21a-4413-a7b2-b8a419a191c7'" class="link">
+          <div>
+            <ion-icon name="link-outline" size="large"></ion-icon>
+          </div>
+          <div>
+            <a [href]="editorial.paginas_web" target="_blank">Visitar</a>
+          </div>
         </div>
       </ion-col>
     </ion-row>

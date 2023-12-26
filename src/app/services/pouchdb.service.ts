@@ -2,21 +2,20 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 import { username, password } from '../configs/config-app';
 import PouchDB from 'pouchdb';
-import { Router } from '@angular/router';
-
-
+import { ToastController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PouchdbService {
-
   private localDB!: any;
   private remoteDB!: any;
   private agendaDB!: any;
   private username = username;
   private password = password;
-  constructor() {
+  constructor(
+    private toastCtrl : ToastController,
+  ) {
     this.initializeDB();  
   }
 
@@ -52,24 +51,36 @@ export class PouchdbService {
     })
     .on('change', (change: any) => {
       console.log('Replicacion onchange', change);
+      this.presentToast('Estamos descargando los datos de la FILPM, esto podría tomar unos segundos en completarse. Por favor espere...')
     })
     .on('paused', async (info: any) => {
       console.log('Replicacion onpaused', info);
+      this.presentToast('Datos obtenidos exitosamente.');
       // console.log('Replicacion completa LAS ACTIVIDADES SON:', await this.localDB.query('filmineria/actividades_view'));
-
     })
     .on('denied', (err: any) => {
       console.log('Replicacion ondenied', err);
+      this.presentToast(`Error al obtener los datos de la FILPM: ${err}, por favor intente más tarde.`);
     })
     .on('error', (err: any) => {
       console.log('Replicacion onerror', err);
+      this.presentToast(`Error al obtener los datos de la FILPM: ${err}, por favor intente más tarde.`);
     })
     .on('complete',(info: any) => {
       console.log('Replicacion oncomplete', info);
     })
   }
 
-
+  presentToast(msg : string){
+    this.toastCtrl.dismiss();
+    this.toastCtrl.create({         
+      message: msg,
+      duration: 3000,
+      position: 'bottom'
+    }).then((toast) => {
+      toast.present();
+    });
+  }
   //* Metodos para la base de datos de editoriales
 
   async getAllEditoriales() {
@@ -111,7 +122,6 @@ export class PouchdbService {
           }).catch((err: any) => {
             row.key.agendada = false;
           });
-          if(row.key.activities[0].name.includes('INAU')){ console.log('Actividad:', row.key) };
           row.key.activities[0].name = this.limpiarTextoHTML(row.key.activities[0].name);
           if (row.key.activities[0].moderators) {
             row.key.activities[0].moderators = this.limpiarTextoHTML(row.key.activities[0].moderators);
@@ -140,6 +150,7 @@ export class PouchdbService {
   }
 
   getLocalDB() {
+    console.log('getting LocalDB', this.localDB);
     return this.localDB;
   }
 

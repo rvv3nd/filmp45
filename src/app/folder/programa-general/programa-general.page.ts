@@ -32,7 +32,6 @@ export class ProgramaGeneralPage implements OnInit, AfterViewInit {
     }).then(loading => loading.present().then(() => {
         this.getRandomPublicidad().then(() => {
           console.log('anuncio cargado', this.anuncio);
-          
         });
     }));
   }
