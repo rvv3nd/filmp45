@@ -1,8 +1,15 @@
 .light-mode-content{
+    --background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.dark-mode-content{
     --background: #51284F;
     padding: 20px;
     border-radius: 8px;
 }
+
 
 ion-button{
     height: 140px;

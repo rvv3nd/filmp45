@@ -32,61 +32,68 @@ export class MapaPage implements OnInit, AfterViewInit {
   standsPlantaAltaFiltered = [] as any;
   sectionsPlantaAlta = [] as any;
   doubleBack = false;
+  
   ngAfterViewInit() {
-    this.loading().then(() => {
-      this.pouchService.getStands().then((stands) => {
+    this.loading().then(() => { //inicia spinner de carga
+      this.pouchService.getStands().then((stands) => { //obtiene stands desde la base de datos
+        try {
+          //Obtiene stands
+          this.standsPlantaBaja = [];
+          this.standsPlantaAlta = [];
 
-        //Obtiene stands
-        this.standsPlantaBaja = stands.rows.filter((stand: any) => {
-          if(stand.value.section.floor == 'Planta baja'){
-            return stand
-          }else {
-            return null;
+          stands.rows.forEach((stand: any) => {
+            if (stand.value.section.floor === 'Planta baja') {
+              this.standsPlantaBaja.push(stand);
+            } else if (stand.value.section.floor === 'Planta alta') {
+              this.standsPlantaAlta.push(stand);
+            }
+          });
+          let res : Set<string> = new Set();
+          let res2 : Set<string> = new Set();
+          //Obtiene secciones
+          for(let stand of this.standsPlantaBaja){
+            res.add(stand.value.section.name);
           }
-        });
-        this.standsPlantaAlta = stands.rows.filter((stand: any) => {
-          if(stand.value.section.floor == 'Planta alta'){
-            return stand
-          }else{
-            return null;
+          this.sectionsPlantaBaja = Array.from(res);
+          for(let stand of this.standsPlantaAlta){
+            res2.add(stand.value.section.name);
           }
-        });
-        let res : Set<string> = new Set();
-        let res2 : Set<string> = new Set();
-        //Obtiene secciones
-        for(let stand of this.standsPlantaBaja){
-          res.add(stand.value.section.name);
+          this.sectionsPlantaAlta = Array.from(res2);
+          this.sectionsPlantaBaja = this.ordenarAlfanumericamente(this.sectionsPlantaBaja);
+          this.sectionsPlantaAlta = this.ordenarAlfanumericamente(this.sectionsPlantaAlta);
+          this.seccionPBSeleccionada = this.sectionsPlantaBaja[0];
+          this.seccionPASeleccionada = this.sectionsPlantaAlta[0];
+
+          this.standsPlantaBajaFiltered = this.standsPlantaBaja.filter((stand: any) => {
+            if(stand.value.section.name == this.seccionPBSeleccionada){
+              return stand;
+            }else{
+              return null;
+            }
+          });
+
+          this.standsPlantaAltaFiltered = this.standsPlantaAlta.filter((stand: any) => {
+            if(stand.value.section.name == this.seccionPASeleccionada){
+              return stand;
+            }else{
+              return null;
+            }
+          });
+          console.log(this.standsPlantaBajaFiltered);
+          console.log(this.standsPlantaAltaFiltered);
+          this.loadingCtrl.dismiss();
+        } catch (error) {
+          this.loadingCtrl.dismiss();
+          console.log(error);
         }
-        this.sectionsPlantaBaja = Array.from(res);
-        for(let stand of this.standsPlantaAlta){
-          res2.add(stand.value.section.name);
-        }
-        this.sectionsPlantaAlta = Array.from(res2);
-        this.sectionsPlantaBaja = this.ordenarAlfanumericamente(this.sectionsPlantaBaja);
-        this.sectionsPlantaAlta = this.ordenarAlfanumericamente(this.sectionsPlantaAlta);
-        this.seccionPBSeleccionada = this.sectionsPlantaBaja[0];
-        this.seccionPASeleccionada = this.sectionsPlantaAlta[0];
-
-        this.standsPlantaBajaFiltered = this.standsPlantaBaja.filter((stand: any) => {
-          if(stand.value.section.name == this.seccionPBSeleccionada){
-            return stand;
-          }else{
-            return null;
-          }
-        });
-
-        this.standsPlantaAltaFiltered = this.standsPlantaAlta.filter((stand: any) => {
-          if(stand.value.section.name == this.seccionPASeleccionada){
-            return stand;
-          }else{
-            return null;
-          }
-        });
-        console.log(this.standsPlantaBajaFiltered);
-        console.log(this.standsPlantaAltaFiltered);
+      }).catch((error) => {
         this.loadingCtrl.dismiss();
+        console.log(error);
       });
-    })
+    }).catch((error) => {
+      this.loadingCtrl.dismiss();
+      console.log(error);
+    });
   }
 
   adjustZoom(factor: number): void {
@@ -150,11 +157,16 @@ export class MapaPage implements OnInit, AfterViewInit {
     });
   }
 
+  /**
+   * Crea y muestra un spinner de carga con un mensaje personalizado.
+   * @returns Una promesa que se resuelve cuando se muestra el spinner de carga.
+   */
+
   async loading(){
     return this.loadingCtrl.create({
       message: 'Cargando mapa...'
     }).then((loading) => {
-      console.log('loading presenting');
+      //console.log('loading presenting');
       return loading.present();
     })
   }

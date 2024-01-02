@@ -7,9 +7,9 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" [ngClass]="isModeLight ? 'light-mode-content' : '' ">
+<ion-content [fullscreen]="true" [ngClass]="isModeLight ? 'light-mode-content' : 'dark-mode-content' ">
   <app-not-found *ngIf="!found"/>
-  <ion-searchbar mode="ios" color="light" animated  (ionInput)="buscarSalon($event)"></ion-searchbar>
+  <ion-searchbar *ngIf="found" mode="ios" color="light" animated  (ionInput)="buscarSalon($event)"></ion-searchbar>
   <ion-grid class="grid-container">
     <ion-row *ngFor="let salon of salonesFiltradas; let i = index" style="width:50%">
         <ion-col>

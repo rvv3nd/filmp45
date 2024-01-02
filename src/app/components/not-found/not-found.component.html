@@ -1,7 +1,7 @@
 <!-- FILEPATH: /Users/siw/Documents/FILPM45/FILM45-APP/src/app/components/not-found/not-found.component.html -->
 
-<div *ngIf="tipo == 'actividades'" class="error-message">
-  <p>Parece que el contenido que buscabas no ha podido cargarse o no existe en la base de datos.</p>
+<div *ngIf="tipo == 'actividades'" class="error-message ion-padding">
+  <p>Parece que el contenido que buscabas no ha podido cargarse.</p>
   <ion-img src="../../../assets/images/not found.png" style="padding:20px; width: 50%;"></ion-img>
     <!--
       Inluir este link para dar crédito al autor de la imagen, debe incluir en la sección de créditos de la app
@@ -11,7 +11,7 @@
   <p>Por favor, intenta de nuevo más tarde.</p>
 </div>
 
-<div *ngIf="tipo == 'agenda'" class="error-message">
+<div *ngIf="tipo == 'agenda'" class="error-message ion-padding">
   <p>Tu agenda está vacía.</p>
   <ion-img src="../../../assets/images/agenda-not-found.png" style="padding-top: 40px; width: 50%;"></ion-img>
   <!--
