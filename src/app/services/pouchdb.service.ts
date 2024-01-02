@@ -16,7 +16,7 @@ export class PouchdbService {
   constructor(
     private toastCtrl : ToastController,
   ) {
-    this.initializeDB();  
+    this.initializeDB();
   }
 
   initializeDB() {
@@ -29,7 +29,8 @@ export class PouchdbService {
     });
     this.localDB = new PouchDB('filmineria');
     const encodedCredentials = btoa(`${this.username}:${this.password}`);
-    this.remoteDB = new PouchDB(`http://132.248.63.210:5984/filmineria/`);
+    //this.remoteDB = new PouchDB(`http://132.248.63.210:5984/filmineria/`); //remote
+    this.remoteDB = new PouchDB('http://127.0.0.1:5984/fil-mineria45/') //local
     console.log('PouchDBService constructor started with localDB: ', this.localDB, ' and remoteDB: ', this.remoteDB);
     this.replicateFromRemote();
 
@@ -73,7 +74,7 @@ export class PouchdbService {
 
   presentToast(msg : string){
     this.toastCtrl.dismiss();
-    this.toastCtrl.create({         
+    this.toastCtrl.create({
       message: msg,
       duration: 3000,
       position: 'bottom'
@@ -98,7 +99,7 @@ export class PouchdbService {
   async getStands(){
     const stands = await this.localDB.query('filmineria/stands');
     console.log('stands From service', stands);
-    return stands 
+    return stands
   }
 
   //* Metodos para la base de datos de actividades
@@ -202,7 +203,7 @@ export class PouchdbService {
       throw error; // Puedes manejar el error según tus necesidades
     }
   }
-  
+
 
   getActividadAgendada(id: string, recordatorios: any = []) {
     //console.log('getting actividad desde local con id', id);
@@ -233,7 +234,7 @@ export class PouchdbService {
     }
   }
 
-  
+
   async updateActividadAgendada(actividad: any) {
     try {
       console.log('Actividad a actualizar:', actividad);
