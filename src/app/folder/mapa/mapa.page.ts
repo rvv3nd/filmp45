@@ -16,10 +16,10 @@ export class MapaPage implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
-    
+
   }
-  srcPA = 'http://132.248.63.210:5984/filmineria/969efe412ff3dc986fac25cdc10044ff/Copia%20de%20PLANTA%20ALTA%2045-2.pdf';
-  srcPB = "http://132.248.63.210:5984/filmineria/969efe412ff3dc986fac25cdc10002f0/Copia%20de%2045_planos_print_pbaja.pdf";
+  srcPA = '';
+  srcPB = '';
   clicked = false;
   zoomLevel = 1;
   plantaSeleccionada = 'plantaBaja';
@@ -34,6 +34,14 @@ export class MapaPage implements OnInit, AfterViewInit {
   doubleBack = false;
   ngAfterViewInit() {
     this.loading().then(() => {
+      console.log('getting pdfs');
+      this.pouchService.getAllPDFs().then((pdfs) => {
+        console.log(pdfs);
+        this.srcPA = pdfs[1].src ;
+        this.srcPB = pdfs[0].src;
+        console.log(this.srcPA);
+        console.log(this.srcPB);
+      });
       this.pouchService.getStands().then((stands) => {
 
         //Obtiene stands
@@ -126,6 +134,16 @@ export class MapaPage implements OnInit, AfterViewInit {
     this.clicked = false;
   }
   
+  downloadPDF(){
+    const link = document.createElement('a');
+    if(this.plantaSeleccionada == 'plantaBaja'){
+      link.href = this.srcPB;
+    }else if(this.plantaSeleccionada == 'plantaAlta'){
+      link.href = this.srcPA;
+    }
+    link.download = "mapa-" + this.plantaSeleccionada + ".pdf";
+    link.click();
+  }
 
   seccionPBChange(value: any){
 
