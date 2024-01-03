@@ -76,37 +76,28 @@ export class MapaPage implements OnInit, AfterViewInit {
         this.seccionPBSeleccionada = this.sectionsPlantaBaja[0];
         this.seccionPASeleccionada = this.sectionsPlantaAlta[0];
 
-          this.standsPlantaBajaFiltered = this.standsPlantaBaja.filter((stand: any) => {
-            if(stand.value.section.name == this.seccionPBSeleccionada){
-              return stand;
-            }else{
-              return null;
-            }
-          });
+        this.standsPlantaBajaFiltered = this.standsPlantaBaja.filter((stand: any) => {
+          if(stand.value.section.name == this.seccionPBSeleccionada){
+            return stand;
+          }else{
+            return null;
+          }
+        });
 
-          this.standsPlantaAltaFiltered = this.standsPlantaAlta.filter((stand: any) => {
-            if(stand.value.section.name == this.seccionPASeleccionada){
-              return stand;
-            }else{
-              return null;
-            }
-          });
-          console.log(this.standsPlantaBajaFiltered);
-          console.log(this.standsPlantaAltaFiltered);
-          this.loadingCtrl.dismiss();
-        } catch (error) {
-          this.loadingCtrl.dismiss();
-          console.log(error);
-        }
-      }).catch((error) => {
+        this.standsPlantaAltaFiltered = this.standsPlantaAlta.filter((stand: any) => {
+          if(stand.value.section.name == this.seccionPASeleccionada){
+            return stand;
+          }else{
+            return null;
+          }
+        });
+        console.log(this.standsPlantaBajaFiltered);
+        console.log(this.standsPlantaAltaFiltered);
         this.loadingCtrl.dismiss();
-        console.log(error);
       });
-    }).catch((error) => {
-      this.loadingCtrl.dismiss();
-      console.log(error);
-    });
+    })
   }
+
 
   adjustZoom(factor: number): void {
     const aux = this.zoomLevel * factor;

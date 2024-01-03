@@ -29,8 +29,8 @@ export class PouchdbService {
     });
     this.localDB = new PouchDB('filmineria');
     const encodedCredentials = btoa(`${this.username}:${this.password}`);
-    this.remoteDB = new PouchDB(`http://132.248.63.210:5984/filmineria/`); //remote
-    //this.remoteDB = new PouchDB('http://127.0.0.1:5984/fil-mineria45/') //local
+    //this.remoteDB = new PouchDB(`http://132.248.63.210:5984/filmineria/`); //remote
+    this.remoteDB = new PouchDB('http://127.0.0.1:5984/fil-mineria45/') //local
     console.log('PouchDBService constructor started with localDB: ', this.localDB, ' and remoteDB: ', this.remoteDB);
     this.replicateFromRemote();
 
