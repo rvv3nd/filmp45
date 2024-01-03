@@ -52,7 +52,7 @@ export class ActividadesComponent  implements OnInit {
     // console.log((this.room != '') ? `room ${this.room}`:'noroom' );
     // console.log((this.category != '') ? `category ${this.category}` : 'nocategory');
     // console.log((this.day != '') ? `day${this.day}`: 'noday');
-    this.local = this.pouchService.getLocalDB(); 
+    this.local = this.pouchService.getLocalDB();
     this.loadingService.isLoading.subscribe(loading => { //escucha el estado del loading
       // console.log('Loading changed on actividades.component.ts', loading);
     });
@@ -119,7 +119,7 @@ export class ActividadesComponent  implements OnInit {
   }
 
   toggleAgendar(actividadIndex: any) {
-    //Lógica para mostrar un modal o un aviso de confirmacion segun el estado de agendada o no agendada de una actividad 
+    //Lógica para mostrar un modal o un aviso de confirmacion segun el estado de agendada o no agendada de una actividad
     if(this.actividadesFilter[actividadIndex].agendada){
       this.presentActionSheet(this.actividadesFilter[actividadIndex]);
     }else{
@@ -213,7 +213,7 @@ export class ActividadesComponent  implements OnInit {
             console.log('Desagendando...');
             this.pouchService.deleteActividadAgendada(actividad._id).then((result: any) => {
               console.log('result', result);
-              if(this.filter === 'agenda'){ 
+              if(this.filter === 'agenda'){
                 console.log('agenda', this.actividadesFilter);
                 this.actividadesFilter = this.actividadesFilter.filter((act: any) => act._id !== actividad._id)
                 console.log('agenda nueva', this.actividadesFilter);
@@ -222,7 +222,7 @@ export class ActividadesComponent  implements OnInit {
               actividad.agendada = !actividad.agendada;
             }).catch((error: any) => {
               console.log('error', error);
-            })  
+            })
           },
         },
         {
@@ -256,12 +256,12 @@ export class ActividadesComponent  implements OnInit {
     return allActividades;
   }
 
-  getActividadesAgendadas(cargarDias = false){
+  async getActividadesAgendadas(cargarDias = false): Promise<boolean>{
     this.loadingService.setIsLoading(true);
     console.log('getActividadesAgendadas');
     this.filter = 'agenda';
     console.log("Actividades agendadas", this.filter);
-    this.pouchService.getActividadesDetalleAgendadas().then((actividades: any) => {
+    return this.pouchService.getActividadesDetalleAgendadas().then((actividades: any) => {
       if(cargarDias){
         this.daysComponent.days = this.getDaysFromActividades(actividades);
         console.log('this.daysComponent.days se supone que ordnados', this.daysComponent.days);
@@ -279,9 +279,12 @@ export class ActividadesComponent  implements OnInit {
       this.loadingService.setIsLoading(false);
       if(this.actividadesFilter.length === 0) this.found = false;
       else this.found = true;
+      console.log('found', this.found);
+      return this.found;
     }
     ).catch((error: any) => {
       console.log('error', error);
+      return false;
     })
   }
 
@@ -554,7 +557,7 @@ compararHoras(horaA: string, horaB: string): number {
       }
     }
 
-    
+
   }
 
   onSearchCancel(){
@@ -589,7 +592,7 @@ compararHoras(horaA: string, horaB: string): number {
 
   obtenerDiaMesHora(fechaISO: string): string {
     const fecha = new Date(fechaISO);
-  
+
     const options: Intl.DateTimeFormatOptions = {
       weekday: 'long',
       day: 'numeric',
@@ -597,9 +600,9 @@ compararHoras(horaA: string, horaB: string): number {
       hour: 'numeric',
       minute: 'numeric',
     };
-  
+
     const formatoFecha = new Intl.DateTimeFormat('es-ES', options);
-  
+
     return formatoFecha.format(fecha) + ' horas';
   }
 
@@ -608,7 +611,7 @@ compararHoras(horaA: string, horaB: string): number {
     return arrayFechas.sort((a, b) => {
       const diaA = parseInt(a.split(' ')[1], 10);
       const diaB = parseInt(b.split(' ')[1], 10);
-  
+
       // Ordenar por días del 24 en adelante primero, luego por días del 1 al 23
       if (diaA >= 23 && diaB >= 23) {
         return diaA - diaB; // Ordenar por días del 24 en adelante
@@ -626,22 +629,22 @@ compararHoras(horaA: string, horaB: string): number {
 
   formatearHora(hora: string): string {
     const partes = hora.split(':');
-  
+
     if (partes.length === 2) {
       const horas = partes[0];
       let minutos = partes[1];
-  
+
       // Asegurarse de que los minutos tengan dos dígitos
       minutos = minutos.length === 1 ? '0' + minutos : minutos;
-  
+
       // Devolver la hora formateada
       return `${horas}:${minutos}`;
     }
-  
+
     // Devolver la cadena original si no se puede analizar
     return hora;
   }
-  
+
 
   limpiarTextoHTML(textoHTML: string) {
     //usando expresiones Regulares limpia el texto de etiquetas HTML

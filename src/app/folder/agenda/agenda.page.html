@@ -7,10 +7,10 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <app-not-found *ngIf="!found"/>
-  <app-actividades></app-actividades>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+<ion-content [fullscreen]="true" [ngClass]="{'light-mode-content': isModeLight && found, 'dark-mode-content': !isModeLight && !found}">
+  <app-not-found [tipo]="'agenda'" *ngIf="!found"/>
+  <app-actividades [style.display]="!found ? 'none' : 'block'"></app-actividades>
+  <ion-fab *ngIf="found" vertical="bottom" horizontal="end" slot="fixed">
     <div (click)="scrollToTop()" class="fab-button">
       <ion-icon size="large" color="light" name="arrow-up-outline"></ion-icon>
     </div>

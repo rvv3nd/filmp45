@@ -1,4 +1,4 @@
-<ion-searchbar 
+<ion-searchbar
   mode="ios"
   [debounce]="500"
   animated
@@ -16,7 +16,7 @@
 <app-not-found *ngIf="!found" [tipo]="'agenda'"></app-not-found>
 <app-days *ngIf="found" class="app-days-container" [ngClass]="{'hide': !datePikcerIsAvailable}" (selectedDayChange)="onSelectedDayChangeFromChild($event, filter)"></app-days>
 <app-loading *ngIf="loadingService.getIsLoading()"/>
-<div *ngIf="!loadingService.getIsLoading() && actividadesFilter.length == 0 && found" style="text-align: center; margin-top: 30px; font-size: 20px;">
+<div *ngIf="!loadingService.getIsLoading() && actividadesFilter.length === 0 && found" style="text-align: center; margin-top: 30px; font-size: 20px;">
   <ion-label class="ion-text-center" style="font-family: 'Gotham-Medium'; ">No hay resultados</ion-label>
 </div>
 <ion-grid *ngIf="!loadingService.getIsLoading()">
@@ -65,7 +65,7 @@
           <ion-label class="label nombre">{{actividad?.activities[0].name}}</ion-label>
           <ion-label *ngIf="actividad?.activities[0].authors" class="label author">{{actividad?.activities[0].authors}}</ion-label>
         </div>
-        <div *ngIf="actividad?.activities[0].moderators != null">
+        <div *ngIf="actividad?.activities[0].moderators !== null">
           <ion-label class="label modera">{{actividad?.activities[0].moderators}}</ion-label>
         </div>
         <div *ngIf="actividad?.organizer">
@@ -76,13 +76,13 @@
         </div>
       </ion-col>
       <ion-col size="4" class="ion-no-padding" style="display: flex;justify-content: center; align-items: center;">
-        <div *ngIf="filter != 'agenda'" class="ion-activatable ripple-parent agenda-container" (click)="toggleAgendar(i)">
+        <div *ngIf="filter !== 'agenda'" class="ion-activatable ripple-parent agenda-container" (click)="toggleAgendar(i)">
             <ion-icon *ngIf="!actividad.agendada" size="large" name="bookmark-outline" color="P2622C"></ion-icon>
             <ion-label *ngIf="!actividad.agendada">Agendar</ion-label>
             <ion-icon *ngIf="actividad.agendada" size="large" name="bookmark" color="P2622C"></ion-icon>
             <ion-label *ngIf="actividad.agendada" style="font-size: 14px;">Agendada</ion-label>
         </div>
-        <div *ngIf="filter == 'agenda'" class="ion-activatable ripple-parent agenda-container" (click)="openActividad(actividad)">
+        <div *ngIf="filter === 'agenda'" class="ion-activatable ripple-parent agenda-container" (click)="openActividad(actividad)">
           <ion-icon color="P2622C" size="large" name="notifications-outline"></ion-icon>
           <ion-label>Editar</ion-label>
         </div>
@@ -110,7 +110,7 @@ header="Actions"
     <ion-content class="ion-padding" style="font-family: 'Gotham-Medium';">
         <div class="actividad-item">
           <div>
-            <ion-label class="label startDate">{{obtenerDiaMesHora(actividadModal?.startDate)}} <span *ngIf="actividadModal?.fecha_y_hora_final != null"> a {{actividadModal?.hora_final}}0 horas</span>.</ion-label>
+            <ion-label class="label startDate">{{obtenerDiaMesHora(actividadModal?.startDate)}} <span *ngIf="actividadModal?.fecha_y_hora_final !== null"> a {{actividadModal?.hora_final}}0 horas</span>.</ion-label>
           </div>
           <div>
             <ion-label *ngFor="let cat of actividadModal?.indexes" class="label categoria">{{cat.name}}</ion-label>
@@ -127,7 +127,7 @@ header="Actions"
         </div>
       <div class="recordatorio-container" >
         <ion-label class="recordatorio-label">
-          Se enviará una o varias notificaciones para recordarte la fecha de la actividad.<strong> Selecciona al menos una</strong> 
+          Se enviará una o varias notificaciones para recordarte la fecha de la actividad.<strong> Selecciona al menos una</strong>
         </ion-label>
         <div class="check-container">
           <div class="label-icon">
@@ -188,7 +188,7 @@ header="Actions"
     <ion-content class="ion-padding">
       <div class="actividad-item">
         <div>
-          <ion-label class="label startDate">{{obtenerDiaMesHora(actividadModal?.startDate)}} <span *ngIf="actividadModal?.fecha_y_hora_final != null"> a {{actividadModal?.hora_final}}0 horas</span>.</ion-label>
+          <ion-label class="label startDate">{{obtenerDiaMesHora(actividadModal?.startDate)}} <span *ngIf="actividadModal?.fecha_y_hora_final !== null"> a {{actividadModal?.hora_final}}0 horas</span>.</ion-label>
         </div>
         <div>
           <ion-label *ngFor="let cat of actividadModal?.indexes" class="label categoria">{{cat.name}}</ion-label>

@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" [ngClass]="isModeLight ? 'light-mode-content' : 'dark-mode-content' ">
+<ion-content [fullscreen]="true" [ngClass]="(isModeLight && !found) ? 'light-mode-content' : 'dark-mode-content' ">
   <app-not-found *ngIf="!found"/>
   <ion-grid >
     <ion-row *ngFor="let categoria of categoriasFiltradas; let i = index">

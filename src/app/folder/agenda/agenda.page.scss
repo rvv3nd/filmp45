@@ -9,6 +9,18 @@ ion-item{
 
 }
 
+.light-mode-content{
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.dark-mode-content{
+  --background: #51284F;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+
 .actividad-item{
     width: 100%;
     flex-direction: column !important;
@@ -20,7 +32,7 @@ ion-item{
     display: flex;
     align-items: center;
 }
-.fab-button{ 
+.fab-button{
     background:#653165 !important;
     padding: 10px;
     border-radius: 50px;
