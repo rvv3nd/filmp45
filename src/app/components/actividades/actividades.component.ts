@@ -71,29 +71,29 @@ export class ActividadesComponent  implements OnInit {
     // Lógica al escribir en la barra de búsqueda
     this.valorBusqueda = ''
     this.valorBusqueda = event.target.value;
-    console.log('Texto de búsqueda cambia:', this.valorBusqueda);
+    //console.log('Texto de búsqueda cambia:', this.valorBusqueda);
   }
 
 
   hideDatepicker() {
     this.datePikcerIsAvailable = false;
-    console.log('hideDatepicker');
+    //console.log('hideDatepicker');
   }
   showDatepicker() {
     this.datePikcerIsAvailable = true;
-    console.log('showDatepicker');
+    //console.log('showDatepicker');
   }
 
   confirmCancelar(actividad : any) {
-    console.log('confirmCancelar', actividad);
+    //console.log('confirmCancelar', actividad);
     this.presentActionSheet(actividad);
   }
 
   guardarCambios(actividad: any){
     //guarda los cambios en los recordatorios
-    console.log('guardarCambios', actividad);
+    //console.log('guardarCambios', actividad);
     this.pouchService.updateActividadAgendada(actividad).then((result: any) => {
-      console.log('result', result);
+      //console.log('result', result);
       this.changes = false;
       this.modalEditarDismiss();
     }).catch((error: any) => {
@@ -126,10 +126,6 @@ export class ActividadesComponent  implements OnInit {
       this.openModalAgendar(actividadIndex);
     }
   }
-  fakeAgendada = false;
-  toggleFake(){
-    this.fakeAgendada = !this.fakeAgendada;
-  }
 
   openActividad(actividad : any){
     this.openModalEditar(actividad);
@@ -137,12 +133,13 @@ export class ActividadesComponent  implements OnInit {
 
   openModalAgendar(actividadIndex: any) {
     this.dataSh.setSharedData(this.actividadesFilter[actividadIndex]);
-    console.log('actividad', this.actividadesFilter[actividadIndex]);
+    //console.log('actividad', this.actividadesFilter[actividadIndex]);
     this.actividades[actividadIndex].agendada = !this.agendada;
     this.actividadModal = this.dataSh.getSharedData();
     this.actividadModal.agendada = false;
     this.modal.present();
   }
+
   openModalEditar(actividad : any) {
     this.actividadModal = actividad
     this.recordatoriosOriginales = {
@@ -151,7 +148,7 @@ export class ActividadesComponent  implements OnInit {
       unaHoraAntes : this.actividadModal.recordatorios.unaHoraAntes,
       unDiaAntes: this.actividadModal.recordatorios.unDiaAntes,
     };
-    console.log('actividadesFilter', this.actividadesFilter);
+    //console.log('actividadesFilter', this.actividadesFilter);
     this.modalEditar.present();
   }
 
@@ -168,12 +165,12 @@ export class ActividadesComponent  implements OnInit {
 
   confirm() {
     this.modal.dismiss(null, 'confirm');
-    console.log('confirm', this.actividadModal);
+    //console.log('confirm', this.actividadModal);
     this.actividadModal.recordatorios = this.checkboxes
     this.pouchService.addActividadAgendada(this.actividadModal).then((result: any) => {
       this.actividadModal.agendada = true;
       this.resetCheckboxes();
-      console.log('result', result);
+      //console.log('result', result);
     }).catch((error: any) => {
       console.log('error', error);
     })
@@ -212,11 +209,11 @@ export class ActividadesComponent  implements OnInit {
           handler: () => {
             console.log('Desagendando...');
             this.pouchService.deleteActividadAgendada(actividad._id).then((result: any) => {
-              console.log('result', result);
+              //console.log('result', result);
               if(this.filter === 'agenda'){
-                console.log('agenda', this.actividadesFilter);
+                //console.log('agenda', this.actividadesFilter);
                 this.actividadesFilter = this.actividadesFilter.filter((act: any) => act._id !== actividad._id)
-                console.log('agenda nueva', this.actividadesFilter);
+                //console.log('agenda nueva', this.actividadesFilter);
                 this.modalEditarDismiss();
               };
               actividad.agendada = !actividad.agendada;
@@ -232,7 +229,7 @@ export class ActividadesComponent  implements OnInit {
             action: 'cancel',
           },
           handler: () => {
-            console.log('Cancelando...');
+            //console.log('Cancelando...');
           }
         },
       ],
@@ -252,19 +249,19 @@ export class ActividadesComponent  implements OnInit {
   async getAllActividadesAgendadas(){
     const allActividades = await this.pouchService.getActividadesAgendadas();
     this.dataSh.actividadesAgendadas = allActividades;
-    console.log('allActividades', allActividades);
+    //console.log('allActividades', allActividades);
     return allActividades;
   }
 
   async getActividadesAgendadas(cargarDias = false): Promise<boolean>{
     this.loadingService.setIsLoading(true);
-    console.log('getActividadesAgendadas');
+    //console.log('getActividadesAgendadas');
     this.filter = 'agenda';
-    console.log("Actividades agendadas", this.filter);
+    //console.log("Actividades agendadas", this.filter);
     return this.pouchService.getActividadesDetalleAgendadas().then((actividades: any) => {
       if(cargarDias){
         this.daysComponent.days = this.getDaysFromActividades(actividades);
-        console.log('this.daysComponent.days se supone que ordnados', this.daysComponent.days);
+        //console.log('this.daysComponent.days se supone que ordnados', this.daysComponent.days);
         this.daysComponent.selectedDay = this.daysComponent.days[0];
       }
       let res = []
@@ -275,11 +272,11 @@ export class ActividadesComponent  implements OnInit {
       }
       this.actividades = res;
       this.actividadesFilter = res;
-      console.log('actividades agendadas', this.actividadesFilter);
+      //console.log('actividades agendadas', this.actividadesFilter);
       this.loadingService.setIsLoading(false);
       if(this.actividadesFilter.length === 0) this.found = false;
       else this.found = true;
-      console.log('found', this.found);
+      //console.log('found', this.found);
       return this.found;
     }
     ).catch((error: any) => {
@@ -291,7 +288,7 @@ export class ActividadesComponent  implements OnInit {
   getActividadesPorSalon(room: string, getDias = false) {
     this.filter = 'room';
     this.loadingService.setIsLoading(true);
-    console.log("Salon seleccionado", this.room);
+    //console.log("Salon seleccionado", this.room);
     //obteiene todas las actividades de un salon
     let res: any[] = []
     this.getAllActividades().then((allActividades: any) => {
@@ -304,7 +301,7 @@ export class ActividadesComponent  implements OnInit {
           }
         }
       }
-      console.log('res', res);
+      //console.log('res', res);
       //Si getDias es true, se obtienen los dias de las actividades del salon
       if(getDias) {
         this.daysComponent.days = this.getDaysFromActividades(res);
@@ -319,9 +316,9 @@ export class ActividadesComponent  implements OnInit {
       }
       this.actividades = res;
       this.actividadesFilter = res2;
-      console.log('actividades por salon', this.actividades);
+      //console.log('actividades por salon', this.actividades);
       this.ordenarActividadesPorHora(this.actividadesFilter);
-      console.log('actividades por salon y día', this.actividadesFilter);
+      //console.log('actividades por salon y día', this.actividadesFilter);
       this.loadingService.setIsLoading(false);
     }).catch((error: any) => {
       console.log('error', error);
@@ -335,7 +332,7 @@ export class ActividadesComponent  implements OnInit {
       this.daysComponent.days = this.getDaysFromActividades(this.actividades);
       this.daysComponent.selectedDay = this.daysComponent.days[0];
     }
-    console.log("Categoria seleccionada", this.category);
+    //console.log("Categoria seleccionada", this.category);
     //obteiene todas las actividades de una categoria
     let res: any[] = []
     this.getAllActividades().then((allActividades: any) => {
@@ -348,7 +345,7 @@ export class ActividadesComponent  implements OnInit {
           }
         }
       }
-      console.log('res', res);
+      //console.log('res', res);
       //Si getDias es true, se obtienen los dias de las actividades de la categoria
       if(getDias) {
         this.daysComponent.days = this.getDaysFromActividades(res);
@@ -364,8 +361,8 @@ export class ActividadesComponent  implements OnInit {
       this.actividades = res;
       this.actividadesFilter = res2;
       this.ordenarActividadesPorHora(this.actividadesFilter);
-      console.log('actividades por categoria', this.actividades);
-      console.log('actividades por categoria y día', this.actividadesFilter);
+      // console.log('actividades por categoria', this.actividades);
+      // console.log('actividades por categoria y día', this.actividadesFilter);
       this.loadingService.setIsLoading(false);
     }).catch((error: any) => {
       console.log('error', error);
@@ -373,8 +370,6 @@ export class ActividadesComponent  implements OnInit {
 
   }
 
-  cancelarCambios(){
-  }
 
   async getAllActividades(){
     const allActividades = await this.pouchService.getAllActividades();
@@ -457,12 +452,12 @@ compararHoras(horaA: string, horaB: string): number {
     for (let actividad of actividades) {
       singleDays.add(this.getDayFromDate(actividad.startDate));
     }
-    console.log('singleDays', singleDays);
+    //console.log('singleDays', singleDays);
     let res = this.ordenarFechas(Array.from(singleDays) as string[]);
-    console.log('res', res);
+    //console.log('res', res);
     this.daysComponent.days = res;
     this.daysComponent.selectedDay = res[0];
-    console.log('this.daysComponent.days', this.daysComponent.days);
+    //console.log('this.daysComponent.days', this.daysComponent.days);
     return res;
   }
 
@@ -470,7 +465,7 @@ compararHoras(horaA: string, horaB: string): number {
   onSelectedDayChangeFromChild(day: any, filter: any) {
     //esta funcion se ejecuta cada que se selecciona un dia en el componente days
     this.actividadesFilter = []; //
-    console.log('onSelectedDayChangeFromChild', day);
+    //console.log('onSelectedDayChangeFromChild', day);
     this.daysComponent.selectedDay = day;
     try{
       if(filter === 'categoria') this.getActividadesPorCategoria(this.category);
@@ -518,7 +513,7 @@ compararHoras(horaA: string, horaB: string): number {
           }
           this.actividadesFilter = res;
           this.ordenarActividadesPorHora(this.actividadesFilter);
-          console.log('actividadesFilterAgendadas', this.actividadesFilter);
+          //console.log('actividadesFilterAgendadas', this.actividadesFilter);
           this.loadingService.setIsLoading(false);
         }
         ).catch((error: any) => {
@@ -529,7 +524,7 @@ compararHoras(horaA: string, horaB: string): number {
           //console.log('allActividades', allActividades);
           if(this.filter != 'dia'){
             if(this.filter === 'room'){
-              console.log("rom", this.room)
+              //console.log("rom", this.room)
               this.actividadesFilter = allActividades.filter((actividad: any) => {
                 if(actividad.room.name == this.room ) return actividad
               })
@@ -540,7 +535,7 @@ compararHoras(horaA: string, horaB: string): number {
                   if(index.name == this.category) return actividad
                 }
               })
-              console.log('actividadesFilter', this.actividadesFilter);
+              //console.log('actividadesFilter', this.actividadesFilter);
               this.busqueda(this.actividadesFilter)
             }
             this.loadingService.setIsLoading(false);
@@ -561,12 +556,12 @@ compararHoras(horaA: string, horaB: string): number {
   }
 
   onSearchCancel(){
-    console.log('onSearchCancel');
+    //console.log('onSearchCancel');
     this.valorBusqueda = '';
     this.buscarActividad({detail: {value: ''}});
   }
   busqueda(allActividades: any[]){
-    console.log('busqueda', this.valorBusqueda);
+    //console.log('busqueda', this.valorBusqueda);
     this.actividadesFilter = allActividades.filter((actividad: any) => {
       if(actividad.activities[0].name.toLowerCase().includes(this.valorBusqueda)) return actividad
       for(let index of actividad.indexes){
@@ -581,7 +576,7 @@ compararHoras(horaA: string, horaB: string): number {
       if(actividad.room.name.toLowerCase().includes(this.valorBusqueda)) return actividad
     });
     this.actividadesFilter = this.ordenarActividadesPorHora(this.actividadesFilter);
-    console.log('actividadesFilter Busqueda', this.actividadesFilter);
+    //console.log('actividadesFilter Busqueda', this.actividadesFilter);
   }
 
   public getDayFromDate(date: string) {
@@ -607,7 +602,7 @@ compararHoras(horaA: string, horaB: string): number {
   }
 
   ordenarFechas(arrayFechas: string[]): string[] {
-    console.log('Ordenando:', arrayFechas)
+    //console.log('Ordenando:', arrayFechas)
     return arrayFechas.sort((a, b) => {
       const diaA = parseInt(a.split(' ')[1], 10);
       const diaB = parseInt(b.split(' ')[1], 10);

@@ -20,39 +20,6 @@
   <ion-label class="ion-text-center" style="font-family: 'Gotham-Medium'; ">No hay resultados</ion-label>
 </div>
 <ion-grid *ngIf="!loadingService.getIsLoading()">
-  <!-- <ion-row class="actividad-item" style="font-family: 'Gotham-Medium';">
-    <ion-col size="9" class="actividad-item">
-      <div class="hora-agenda-container">
-        <ion-label class="label startDate"> <span *ngIf="!datePikcerIsAvailable">jueves 1 de febrero</span> 11:00 horas </ion-label>
-      </div>
-      <div >
-        <ion-label class="label categoria">Categoria de categorias</ion-label>
-      </div>
-      <div >
-        <ion-label class="label nombre">Actividad de prueba para ver el botón cuadrado</ion-label>
-        <ion-label class="label author">No one knows why</ion-label>
-      </div>
-      <div >
-        <ion-label class="label modera">Modera el moderador de moderadores</ion-label>
-      </div>
-      <div>
-      <ion-label class="label organizer">Grupo MEXMEN</ion-label>
-      </div>
-      <div>
-      <ion-label class="label room">Salon imaginario</ion-label>
-      </div>
-    </ion-col>
-    <ion-col size="3" style="display: flex;justify-content: center; padding:2px;">
-      <div *ngIf="filter != 'agenda'" class="ion-activatable ripple-parent agenda-container" (click)="toggleFake()" style="padding:2px">
-        <ion-button mode="md" color="P2622C" fill="outline" *ngIf="!fakeAgendada" style="font-size: 10px; padding: 5px;">Agendar</ion-button>
-        <ion-button mode="md" color="danger" fill="outline" *ngIf="fakeAgendada" style="font-size: 8px; padding: 5px;">Desagendar</ion-button>
-      </div>
-      <div *ngIf="filter == 'agenda'" class="ion-activatable ripple-parent agenda-container" (click)="toggleFake()">
-        <ion-icon color="P2622C" size="large" name="notifications-outline"></ion-icon>
-        <ion-label>Editar</ion-label>
-      </div>
-    </ion-col>
-  </ion-row> -->
   <ion-row *ngFor="let actividad of actividadesFilter ; index as i" class="actividad-item" style="font-family: 'Gotham-Medium';">
       <ion-col size="8" class="actividad-item">
         <div class="hora-agenda-container">
