@@ -16,10 +16,10 @@ export class MapaPage implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
-    
+
   }
-  srcPA = 'http://132.248.63.210:5984/filmineria/969efe412ff3dc986fac25cdc10044ff/Copia%20de%20PLANTA%20ALTA%2045-2.pdf';
-  srcPB = "http://132.248.63.210:5984/filmineria/969efe412ff3dc986fac25cdc10002f0/Copia%20de%2045_planos_print_pbaja.pdf";
+  srcPA = '';
+  srcPB = '';
   clicked = false;
   zoomLevel = 1;
   plantaSeleccionada = 'plantaBaja';
@@ -34,35 +34,47 @@ export class MapaPage implements OnInit, AfterViewInit {
   doubleBack = false;
   
   ngAfterViewInit() {
-    this.loading().then(() => { //inicia spinner de carga
-      this.pouchService.getStands().then((stands) => { //obtiene stands desde la base de datos
-        try {
-          //Obtiene stands
-          this.standsPlantaBaja = [];
-          this.standsPlantaAlta = [];
+    this.loading().then(() => {
+      console.log('getting pdfs');
+      this.pouchService.getAllPDFs().then((pdfs) => {
+        console.log(pdfs);
+        this.srcPA = pdfs[1].src ;
+        this.srcPB = pdfs[0].src;
+        console.log(this.srcPA);
+        console.log(this.srcPB);
+      });
+      this.pouchService.getStands().then((stands) => {
 
-          stands.rows.forEach((stand: any) => {
-            if (stand.value.section.floor === 'Planta baja') {
-              this.standsPlantaBaja.push(stand);
-            } else if (stand.value.section.floor === 'Planta alta') {
-              this.standsPlantaAlta.push(stand);
-            }
-          });
-          let res : Set<string> = new Set();
-          let res2 : Set<string> = new Set();
-          //Obtiene secciones
-          for(let stand of this.standsPlantaBaja){
-            res.add(stand.value.section.name);
+        //Obtiene stands
+        this.standsPlantaBaja = stands.rows.filter((stand: any) => {
+          if(stand.value.section.floor == 'Planta baja'){
+            return stand
+          }else {
+            return null;
           }
-          this.sectionsPlantaBaja = Array.from(res);
-          for(let stand of this.standsPlantaAlta){
-            res2.add(stand.value.section.name);
+        });
+        this.standsPlantaAlta = stands.rows.filter((stand: any) => {
+          if(stand.value.section.floor == 'Planta alta'){
+            return stand
+          }else{
+            return null;
           }
-          this.sectionsPlantaAlta = Array.from(res2);
-          this.sectionsPlantaBaja = this.ordenarAlfanumericamente(this.sectionsPlantaBaja);
-          this.sectionsPlantaAlta = this.ordenarAlfanumericamente(this.sectionsPlantaAlta);
-          this.seccionPBSeleccionada = this.sectionsPlantaBaja[0];
-          this.seccionPASeleccionada = this.sectionsPlantaAlta[0];
+        });
+        let res : Set<string> = new Set();
+        let res2 : Set<string> = new Set();
+        //Obtiene secciones
+        for(let stand of this.standsPlantaBaja){
+          res.add(stand.value.section.name);
+        }
+        this.sectionsPlantaBaja = Array.from(res);
+        for(let stand of this.standsPlantaAlta){
+          res2.add(stand.value.section.name);
+        }
+        this.sectionsPlantaAlta = Array.from(res2);
+        this.sectionsPlantaBaja = this.ordenarAlfanumericamente(this.sectionsPlantaBaja);
+        this.sectionsPlantaAlta = this.ordenarAlfanumericamente(this.sectionsPlantaAlta);
+        this.seccionPBSeleccionada = this.sectionsPlantaBaja[0];
+        this.seccionPASeleccionada = this.sectionsPlantaAlta[0];
 
           this.standsPlantaBajaFiltered = this.standsPlantaBaja.filter((stand: any) => {
             if(stand.value.section.name == this.seccionPBSeleccionada){
@@ -133,6 +145,16 @@ export class MapaPage implements OnInit, AfterViewInit {
     this.clicked = false;
   }
   
+  downloadPDF(){
+    const link = document.createElement('a');
+    if(this.plantaSeleccionada == 'plantaBaja'){
+      link.href = this.srcPB;
+    }else if(this.plantaSeleccionada == 'plantaAlta'){
+      link.href = this.srcPA;
+    }
+    link.download = "mapa-" + this.plantaSeleccionada + ".pdf";
+    link.click();
+  }
 
   seccionPBChange(value: any){
 
@@ -166,7 +188,7 @@ export class MapaPage implements OnInit, AfterViewInit {
     return this.loadingCtrl.create({
       message: 'Cargando mapa...'
     }).then((loading) => {
-      //console.log('loading presenting');
+      console.log('loading presenting');
       return loading.present();
     })
   }

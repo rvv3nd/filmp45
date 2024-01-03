@@ -29,8 +29,8 @@ export class PouchdbService {
     });
     this.localDB = new PouchDB('filmineria');
     const encodedCredentials = btoa(`${this.username}:${this.password}`);
-    //this.remoteDB = new PouchDB(`http://132.248.63.210:5984/filmineria/`); //remote
-    this.remoteDB = new PouchDB('http://127.0.0.1:5984/fil-mineria45/') //local
+    this.remoteDB = new PouchDB(`http://132.248.63.210:5984/filmineria/`); //remote
+    //this.remoteDB = new PouchDB('http://127.0.0.1:5984/fil-mineria45/') //local
     console.log('PouchDBService constructor started with localDB: ', this.localDB, ' and remoteDB: ', this.remoteDB);
     this.replicateFromRemote();
 
@@ -82,6 +82,59 @@ export class PouchdbService {
       toast.present();
     });
   }
+
+  async getAllPDFs() {
+    const pdfs = await this.localDB.query('filmineria/pdfs');
+    console.log('pdfs From service', pdfs);
+
+    return Promise.all(
+      pdfs.rows.map(async (row: any) => {
+        const pdfInfo = row.key;
+        console.log('pdfInfo', pdfInfo);
+        const pdfAttachments = pdfInfo._attachments;
+        const pdfObjects = [];
+
+        for (const pdfAttachmentName in pdfAttachments) {
+          if (pdfAttachments.hasOwnProperty(pdfAttachmentName)) {
+            const pdfAttachment = pdfAttachments[pdfAttachmentName];
+            const pdfUrl = await this.getPdfUrl(pdfAttachment, pdfInfo._id, pdfAttachmentName);
+
+            pdfObjects.push({
+              id: pdfInfo._id,
+              pdfName: pdfAttachmentName,
+              src: pdfUrl,
+              // Puedes agregar más propiedades según sea necesario
+            });
+          }
+        }
+
+        return pdfObjects;
+      })
+    ).then((pdfArrays: any[]) => {
+      const flattenedArray = pdfArrays.reduce((acc, curr) => acc.concat(curr), []);
+      console.log('flattenedArray', flattenedArray);
+      return flattenedArray.filter((pdf: { src: null }) => pdf.src !== null);
+    }); // Filtra los objetos sin data
+  }
+
+  async getPdfUrl(pdfAttachment: any, pdfId: string, pdfName: string): Promise<string | null> {
+    if (pdfAttachment.stub) {
+      // Si es un stub, realiza una operación adicional para obtener los datos reales
+      try {
+        const blob = await this.localDB.getAttachment(pdfId, pdfName);
+        console.log('blob', blob);
+        const dataUrl = URL.createObjectURL(blob);
+        return dataUrl;
+      } catch (error) {
+        console.error('Error al obtener datos reales del archivo adjunto:', error);
+        return null;
+      }
+    } else {
+      // Si no es un stub, utiliza el valor actual en el objeto
+      return `data:${pdfAttachment.content_type};base64,${pdfAttachment.data}`;
+    }
+  }
+
   //* Metodos para la base de datos de editoriales
 
   async getAllEditoriales() {
