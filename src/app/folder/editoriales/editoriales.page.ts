@@ -53,6 +53,7 @@ export class EditorialesPage implements OnInit {
       return this.editoriales;
     }).catch((err) => {
       console.log('error editoriales',err);
+      this.found = false;
       return [];
     });
   }
