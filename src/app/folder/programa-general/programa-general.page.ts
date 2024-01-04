@@ -78,7 +78,10 @@ export class ProgramaGeneralPage implements OnInit, AfterViewInit {
       }
       , 10000);
     })
-    this.loadingCtrl.dismiss().then(() => { console.log('loading dismissed'); });
+    this.loadingCtrl.dismiss().then(() => { 
+      if(this.actividades.length == 0) this.found = false;
+      console.log('loading dismissed'); 
+    });
   }
   
   onWillDismiss(event: Event) {

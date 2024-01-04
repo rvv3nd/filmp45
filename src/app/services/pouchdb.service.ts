@@ -60,9 +60,9 @@ export class PouchdbService {
     })
     .on('paused', async (info: any) => {
       console.log('Replicacion onpaused', info);
-      if(info != undefined) {
-        (info.result.ok) ? this.presentToast('Datos obtenidos exitosamente.') : this.presentToast('Error al obtener los datos de la FILPM, por favor intente más tarde.');
-      }else{
+      if (info && info.message) {
+        this.presentToast(`Error al obtener los datos de la FILPM: ${info.message}, por favor intente más tarde.`);
+      } else {
         this.presentToast('Datos obtenidos exitosamente.');
       }
     })

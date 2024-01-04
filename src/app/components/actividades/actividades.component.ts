@@ -390,30 +390,35 @@ export class ActividadesComponent  implements OnInit {
 
   async getActividadesPorDia(cargarDias = false):Promise<boolean> {
     this.loadingService.setIsLoading(true);
-    return this.getAllActividades().then( (allActividades: any) => {
-      if(cargarDias) { //solo se cargan los dias al iniio de su vista, en este caso en programa general
-        //console.log('allActividades Para obtener dias', allActividades);
-        const dias : any = this.getDaysFromActividades(allActividades);
-        this.daysComponent.days = dias
-        this.daysComponent.selectedDay = dias[0]
-      }
-      this.actividades = allActividades;
-      //si no carga los dias, solo se obtiene el dia seleccionado que va cambiando en el componente days
-      let res = []
-      for (let actividad of allActividades) {
-        if (actividad.date === this.daysComponent.selectedDay) {
-          res.push(actividad)
+    try{
+      return this.getAllActividades().then( (allActividades: any) => {
+        if(cargarDias) { //solo se cargan los dias al iniio de su vista, en este caso en programa general
+          //console.log('allActividades Para obtener dias', allActividades);
+          const dias : any = this.getDaysFromActividades(allActividades);
+          this.daysComponent.days = dias
+          this.daysComponent.selectedDay = dias[0]
         }
-      }
-      this.actividadesFilter = res;
-      (this.actividadesFilter.length === 0) ? this.found = false : this.found = true;
-      //ordena las actividades por hora en su campo hora
-      this.ordenarActividadesPorHora(this.actividadesFilter);
-      //console.log('actividades por dia', this.actividades);
-      this.loadingService.setIsLoading(false);
-      //console.log('actividades ya filtradas que se van a mostrar', this.actividadesFilter);
-      return this.found;
-    })
+        this.actividades = allActividades;
+        //si no carga los dias, solo se obtiene el dia seleccionado que va cambiando en el componente days
+        let res = []
+        for (let actividad of allActividades) {
+          if (actividad.date === this.daysComponent.selectedDay) {
+            res.push(actividad)
+          }
+        }
+        this.actividadesFilter = res;
+        (this.actividadesFilter.length === 0) ? this.found = false : this.found = true;
+        //ordena las actividades por hora en su campo hora
+        this.ordenarActividadesPorHora(this.actividadesFilter);
+        //console.log('actividades por dia', this.actividades);
+        this.loadingService.setIsLoading(false);
+        console.log('actividades ya filtradas que se van a mostrar', this.actividadesFilter, this.found);
+        return this.found;
+      })
+    }catch(error){
+      console.log('error', error);
+      return false;
+    }
   }
 
 
