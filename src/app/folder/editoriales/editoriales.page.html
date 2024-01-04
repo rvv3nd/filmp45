@@ -6,8 +6,8 @@
     <ion-title>Editoriales</ion-title>
   </ion-toolbar>
 </ion-header>
-
-<ion-content [fullscreen]="true">
+<app-not-found *ngIf="!found"/>
+<ion-content [fullscreen]="true" *ngIf="found">
   <ion-searchbar 
   mode="ios"
   [debounce]="500"

@@ -20,6 +20,7 @@ export class EditorialesPage implements OnInit {
   ) { }
   sinResultados = false;
   isLightMode = true;
+  found = true;
   ngOnInit() {
     this.loadingService.setIsLoading(true);
     console.log(this.loadingService.getIsLoading());
@@ -28,6 +29,7 @@ export class EditorialesPage implements OnInit {
       console.log('isLightTheme', isLightTheme);
     });
   }
+
 
   ngAfterViewInit() {
     this.getEditoriales().then((actividades) => {
@@ -43,6 +45,7 @@ export class EditorialesPage implements OnInit {
     return this.pouchDB.getAllEditoriales().then((data) => {
       console.log('editoriales', data);
       this.editoriales = data;
+      (this.editoriales.length == 0) ? this.found = false : this.found = true;
       this.ordenarPorNombre(this.editoriales);
       // for(let editorial of this.editoriales){
       //   console.log('editorial nombre', (editorial as any).nombre ? (editorial as any).nombre : editorial);

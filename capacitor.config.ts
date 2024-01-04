@@ -2,7 +2,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.film.app',
-  appName: 'FILM 45 - Feria Internacional del Libro Palacio de Mineria',
+  appName: 'FILPM 45 Feria Internacional del Libro Palacio de Mineria',
   webDir: 'www',
   server: {
     androidScheme: 'https',
