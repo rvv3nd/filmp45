@@ -48,14 +48,13 @@ export class ProgramaGeneralPage implements OnInit, AfterViewInit {
     console.log('cargando actividades ngAfterInit', this.actividadesComponent);
     // Asegúrate de que actividadesComponent no sea null antes de llamar a sus métodos
     if (this.actividadesComponent) {
-      this.actividadesComponent.getActividadesPorDia(true);
+      this.actividadesComponent.getActividadesPorDia(true).then((found) => {
+        this.found = found;
+      });
     }
   }
 
-  ionViewDidEnter() {
-    (this.actividades.length == 0) ? this.found = false : this.found = true;
-    console.log('actividades', this.actividades, this.found);
-  }
+
 
   scrollToTop() {
     this.ionContent.scrollToTop(500);

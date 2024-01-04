@@ -30,8 +30,8 @@ export class PouchdbService {
       });
       this.localDB = new PouchDB('filmineria');
       const encodedCredentials = btoa(`${this.username}:${this.password}`);
-      //this.remoteDB = new PouchDB(`http://132.248.63.210:5984/filmineria/`); //remote
-      this.remoteDB = new PouchDB('http://127.0.0.1:5984/fil-mineria45/') //local
+      this.remoteDB = new PouchDB(`http://132.248.63.210:5984/filmineria/`); //remote
+      //this.remoteDB = new PouchDB('http://127.0.0.1:5984/fil-mineria45/') //local
       console.log('PouchDBService constructor started with localDB: ', this.localDB, ' and remoteDB: ', this.remoteDB);
       this.replicateFromRemote();
 
@@ -60,8 +60,11 @@ export class PouchdbService {
     })
     .on('paused', async (info: any) => {
       console.log('Replicacion onpaused', info);
-      (info.result.ok) ? this.presentToast('Datos obtenidos exitosamente.') : this.presentToast('Error al obtener los datos de la FILPM, por favor intente más tarde.');
-      // console.log('Replicacion completa LAS ACTIVIDADES SON:', await this.localDB.query('filmineria/actividades_view'));
+      if(info != undefined) {
+        (info.result.ok) ? this.presentToast('Datos obtenidos exitosamente.') : this.presentToast('Error al obtener los datos de la FILPM, por favor intente más tarde.');
+      }else{
+        this.presentToast('Datos obtenidos exitosamente.');
+      }
     })
     .on('denied', (err: any) => {
       console.log('Replicacion ondenied', err);

@@ -388,9 +388,9 @@ export class ActividadesComponent  implements OnInit {
     return Array.from( singleDays) as string[];
   }
 
-  async getActividadesPorDia(cargarDias = false) {
+  async getActividadesPorDia(cargarDias = false):Promise<boolean> {
     this.loadingService.setIsLoading(true);
-    this.getAllActividades().then( (allActividades: any) => {
+    return this.getAllActividades().then( (allActividades: any) => {
       if(cargarDias) { //solo se cargan los dias al iniio de su vista, en este caso en programa general
         //console.log('allActividades Para obtener dias', allActividades);
         const dias : any = this.getDaysFromActividades(allActividades);
@@ -406,11 +406,13 @@ export class ActividadesComponent  implements OnInit {
         }
       }
       this.actividadesFilter = res;
+      (this.actividadesFilter.length === 0) ? this.found = false : this.found = true;
       //ordena las actividades por hora en su campo hora
       this.ordenarActividadesPorHora(this.actividadesFilter);
       //console.log('actividades por dia', this.actividades);
       this.loadingService.setIsLoading(false);
       //console.log('actividades ya filtradas que se van a mostrar', this.actividadesFilter);
+      return this.found;
     })
   }
 
