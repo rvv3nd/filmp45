@@ -7,14 +7,17 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+
+<ion-content [fullscreen]="true" >
   <app-not-found *ngIf="!found"/>
-  <ion-fab vertical="bottom" style="--background:#653165;" horizontal="end" slot="fixed">
-    <div (click)="scrollToTop()" class="fab-button">
-      <ion-icon size="large" color="light" name="arrow-up-outline"></ion-icon>
-    </div>
-  </ion-fab>
-  <app-actividades></app-actividades>
+  <div [style.display]="found ? 'block' : 'none'">
+    <ion-fab vertical="bottom" style="--background:#653165;" horizontal="end" slot="fixed">
+      <div (click)="scrollToTop()" class="fab-button">
+        <ion-icon size="large" color="light" name="arrow-up-outline"></ion-icon>
+      </div>
+    </ion-fab>
+    <app-actividades></app-actividades>
+  </div>
   <!---MODAL de PUBLICIDAD-->
   <ion-modal mode="ios" trigger="open-modal" (willDismiss)="onWillDismiss($event)"
     class="modal-publicitario" backdropDismiss="false">
@@ -34,4 +37,5 @@
       </ion-content>
     </ng-template>
   </ion-modal>
+
 </ion-content>

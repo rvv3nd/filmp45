@@ -26,14 +26,22 @@ export class ProgramaGeneralPage implements OnInit, AfterViewInit {
   actividades : any[] = []
   
   ngOnInit() {
-    this.local = this.pouchDBService.getLocalDB();
-    this.loadingCtrl.create({
-      message: 'Cargando anuncio...'
-    }).then(loading => loading.present().then(() => {
-        this.getRandomPublicidad().then(() => {
-          console.log('anuncio cargado', this.anuncio);
-        });
-    }));
+    try{
+      this.local = this.pouchDBService.getLocalDB();
+      console.log('local', this.local);
+      if(this.local){
+        this.loadingCtrl.create({
+          message: 'Cargando anuncio...'
+        }).then(loading => loading.present().then(() => {
+            this.getRandomPublicidad().then(() => {
+              console.log('anuncio cargado', this.anuncio);
+            });
+        }));
+      }
+    }catch(err){
+      this.found = false;
+      console.log(err);
+    }
   }
 
   ngAfterViewInit() {
@@ -45,7 +53,8 @@ export class ProgramaGeneralPage implements OnInit, AfterViewInit {
   }
 
   ionViewDidEnter() {
-
+    (this.actividades.length == 0) ? this.found = false : this.found = true;
+    console.log('actividades', this.actividades, this.found);
   }
 
   scrollToTop() {
@@ -70,7 +79,7 @@ export class ProgramaGeneralPage implements OnInit, AfterViewInit {
       }
       , 10000);
     })
-    this.loadingCtrl.dismiss();
+    this.loadingCtrl.dismiss().then(() => { console.log('loading dismissed'); });
   }
   
   onWillDismiss(event: Event) {

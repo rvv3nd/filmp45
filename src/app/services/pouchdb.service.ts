@@ -20,22 +20,26 @@ export class PouchdbService {
   }
 
   initializeDB() {
-    // Inicia la base de datos para la replicacion de couchdb a pouchdb (local)
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Basic ' + btoa(username + ':' + password),
-      'Accept': 'application/json',
-      'withCredentials': 'true', // Esto indica que debes incluir credenciales (CORS)
-    });
-    this.localDB = new PouchDB('filmineria');
-    const encodedCredentials = btoa(`${this.username}:${this.password}`);
-    //this.remoteDB = new PouchDB(`http://132.248.63.210:5984/filmineria/`); //remote
-    this.remoteDB = new PouchDB('http://127.0.0.1:5984/fil-mineria45/') //local
-    console.log('PouchDBService constructor started with localDB: ', this.localDB, ' and remoteDB: ', this.remoteDB);
-    this.replicateFromRemote();
+    try {
+      // Inicia la base de datos para la replicacion de couchdb a pouchdb (local)
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic ' + btoa(username + ':' + password),
+        'Accept': 'application/json',
+        'withCredentials': 'true', // Esto indica que debes incluir credenciales (CORS)
+      });
+      this.localDB = new PouchDB('filmineria');
+      const encodedCredentials = btoa(`${this.username}:${this.password}`);
+      //this.remoteDB = new PouchDB(`http://132.248.63.210:5984/filmineria/`); //remote
+      this.remoteDB = new PouchDB('http://127.0.0.1:5984/fil-mineria45/') //local
+      console.log('PouchDBService constructor started with localDB: ', this.localDB, ' and remoteDB: ', this.remoteDB);
+      this.replicateFromRemote();
 
-    //Inicia la base de datos de agenda en local
-    this.agendaDB = new PouchDB('agenda');
+      //Inicia la base de datos de agenda en local
+      this.agendaDB = new PouchDB('agenda');
+    } catch (error) {
+      console.log('Error initializing DB:', error);
+    }
   }
 
 
@@ -56,7 +60,7 @@ export class PouchdbService {
     })
     .on('paused', async (info: any) => {
       console.log('Replicacion onpaused', info);
-      this.presentToast('Datos obtenidos exitosamente.');
+      (info.result.ok) ? this.presentToast('Datos obtenidos exitosamente.') : this.presentToast('Error al obtener los datos de la FILPM, por favor intente más tarde.');
       // console.log('Replicacion completa LAS ACTIVIDADES SON:', await this.localDB.query('filmineria/actividades_view'));
     })
     .on('denied', (err: any) => {
