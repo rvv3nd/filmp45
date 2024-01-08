@@ -35,66 +35,83 @@ export class MapaPage implements OnInit, AfterViewInit {
   
   ngAfterViewInit() {
     this.loading().then(() => {
-      console.log('getting pdfs');
-      this.pouchService.getAllPDFs().then((pdfs) => {
-        console.log(pdfs);
-        this.srcPA = pdfs[1].src ;
-        this.srcPB = pdfs[0].src;
-        console.log(this.srcPA);
-        console.log(this.srcPB);
-      });
-      this.pouchService.getStands().then((stands) => {
+      try {
+        console.log('getting pdfs');
+        this.pouchService.getAllPDFs().then((pdfs) => {
+          if(pdfs.length == 0){
+            this.found = false;
+            this.loadingCtrl.dismiss();
+            return;
+          }
+          console.log(pdfs);
+          this.found = true;
+          this.srcPA = pdfs[1].src ;
+          this.srcPB = pdfs[0].src;
+          console.log(this.srcPA);
+          console.log(this.srcPB);
+        });
+        this.pouchService.getStands().then((stands) => {
 
-        //Obtiene stands
-        this.standsPlantaBaja = stands.rows.filter((stand: any) => {
-          if(stand.value.section.floor == 'Planta baja'){
-            return stand
-          }else {
-            return null;
+          if(stands == null || stands.rows.length == 0){
+            this.loadingCtrl.dismiss();
+            this.found = false;
+            return;
           }
-        });
-        this.standsPlantaAlta = stands.rows.filter((stand: any) => {
-          if(stand.value.section.floor == 'Planta alta'){
-            return stand
-          }else{
-            return null;
+          this.found = true;
+          //Obtiene stands
+          this.standsPlantaBaja = stands.rows.filter((stand: any) => {
+            if(stand.value.section.floor == 'Planta baja'){
+              return stand
+            }else {
+              return null;
+            }
+          });
+          this.standsPlantaAlta = stands.rows.filter((stand: any) => {
+            if(stand.value.section.floor == 'Planta alta'){
+              return stand
+            }else{
+              return null;
+            }
+          });
+          let res : Set<string> = new Set();
+          let res2 : Set<string> = new Set();
+          //Obtiene secciones
+          for(let stand of this.standsPlantaBaja){
+            res.add(stand.value.section.name);
           }
-        });
-        let res : Set<string> = new Set();
-        let res2 : Set<string> = new Set();
-        //Obtiene secciones
-        for(let stand of this.standsPlantaBaja){
-          res.add(stand.value.section.name);
-        }
-        this.sectionsPlantaBaja = Array.from(res);
-        for(let stand of this.standsPlantaAlta){
-          res2.add(stand.value.section.name);
-        }
-        this.sectionsPlantaAlta = Array.from(res2);
-        this.sectionsPlantaBaja = this.ordenarAlfanumericamente(this.sectionsPlantaBaja);
-        this.sectionsPlantaAlta = this.ordenarAlfanumericamente(this.sectionsPlantaAlta);
-        this.seccionPBSeleccionada = this.sectionsPlantaBaja[0];
-        this.seccionPASeleccionada = this.sectionsPlantaAlta[0];
+          this.sectionsPlantaBaja = Array.from(res);
+          for(let stand of this.standsPlantaAlta){
+            res2.add(stand.value.section.name);
+          }
+          this.sectionsPlantaAlta = Array.from(res2);
+          this.sectionsPlantaBaja = this.ordenarAlfanumericamente(this.sectionsPlantaBaja);
+          this.sectionsPlantaAlta = this.ordenarAlfanumericamente(this.sectionsPlantaAlta);
+          this.seccionPBSeleccionada = this.sectionsPlantaBaja[0];
+          this.seccionPASeleccionada = this.sectionsPlantaAlta[0];
 
-        this.standsPlantaBajaFiltered = this.standsPlantaBaja.filter((stand: any) => {
-          if(stand.value.section.name == this.seccionPBSeleccionada){
-            return stand;
-          }else{
-            return null;
-          }
-        });
+          this.standsPlantaBajaFiltered = this.standsPlantaBaja.filter((stand: any) => {
+            if(stand.value.section.name == this.seccionPBSeleccionada){
+              return stand;
+            }else{
+              return null;
+            }
+          });
 
-        this.standsPlantaAltaFiltered = this.standsPlantaAlta.filter((stand: any) => {
-          if(stand.value.section.name == this.seccionPASeleccionada){
-            return stand;
-          }else{
-            return null;
-          }
+          this.standsPlantaAltaFiltered = this.standsPlantaAlta.filter((stand: any) => {
+            if(stand.value.section.name == this.seccionPASeleccionada){
+              return stand;
+            }else{
+              return null;
+            }
+          });
+          console.log(this.standsPlantaBajaFiltered);
+          console.log(this.standsPlantaAltaFiltered);
+          this.loadingCtrl.dismiss();
         });
-        console.log(this.standsPlantaBajaFiltered);
-        console.log(this.standsPlantaAltaFiltered);
+      } catch (error) {
+        console.error(error);
         this.loadingCtrl.dismiss();
-      });
+      }
     })
   }
 

@@ -6,9 +6,10 @@
     <ion-title>Editoriales</ion-title>
   </ion-toolbar>
 </ion-header>
-<app-not-found *ngIf="!found"/>
-<ion-content [fullscreen]="true" *ngIf="found">
+<ion-content [fullscreen]="true">
+  <app-not-found *ngIf="!found"/>
   <ion-searchbar 
+  *ngIf="found"
   mode="ios"
   [debounce]="500"
   animated
@@ -19,7 +20,7 @@
 </ion-searchbar>
   <app-loading *ngIf="loadingService.getIsLoading()"/>
   <p class="ion-padding" *ngIf="sinResultados">No hubo resultados para esta busqueda</p>
-  <ion-grid *ngIf="!loadingService.getIsLoading()" style="margin-top:10px">
+  <ion-grid *ngIf="!loadingService.getIsLoading() && found" style="margin-top:10px">
     <ion-row *ngFor="let editorial of editorialesFiltradas;">
       <ion-col size="9">
         <div>
@@ -101,7 +102,7 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="found">
     <div (click)="scrollToTop()" class="fab-button">
       <ion-icon size="large" color="light" name="arrow-up-outline"></ion-icon>
     </div>

@@ -9,7 +9,7 @@
 
 <ion-content [fullscreen]="true">
   <app-not-found *ngIf="!found"/>
-  <ion-segment [(ngModel)]="plantaSeleccionada" class="segment-container-plantas" mode="md" (ionChange)="plantaChange()">
+  <ion-segment *ngIf="found" [(ngModel)]="plantaSeleccionada" class="segment-container-plantas" mode="md" (ionChange)="plantaChange()">
     <ion-segment-button value="plantaBaja">
       Planta Baja
     </ion-segment-button>
@@ -17,14 +17,14 @@
       Planta Alta
     </ion-segment-button>
   </ion-segment>
-  <div *ngIf="plantaSeleccionada === 'plantaBaja'">
+  <div *ngIf="plantaSeleccionada === 'plantaBaja' && found" >
     <ion-segment [(ngModel)]="seccionPBSeleccionada" class="segment-container-secciones" mode="md"  (ionChange)="seccionPBChange(seccionPBSeleccionada)">
       <ion-segment-button *ngFor="let section of sectionsPlantaBaja" [value]="section" style="margin-right: 5px;">
         {{ section }}
       </ion-segment-button>
     </ion-segment>
   </div>
-  <div *ngIf="plantaSeleccionada === 'plantaAlta'">
+  <div *ngIf="plantaSeleccionada === 'plantaAlta' && found">
     <ion-segment [(ngModel)]="seccionPASeleccionada" class="segment-container-secciones" mode="md" (ionChange)="seccionPAChange(seccionPASeleccionada)">
       <ion-segment-button *ngFor="let section of sectionsPlantaAlta" [value]="section" style="margin-right: 5px;">
         {{ section }}

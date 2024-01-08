@@ -91,37 +91,46 @@ export class PouchdbService {
   }
 
   async getAllPDFs() {
-    const pdfs = await this.localDB.query('filmineria/pdfs');
-    console.log('pdfs From service', pdfs);
+    try {
+      const pdfs = await this.localDB.query('filmineria/pdfs');
+      console.log('pdfs From service', pdfs);
 
-    return Promise.all(
-      pdfs.rows.map(async (row: any) => {
-        const pdfInfo = row.key;
-        console.log('pdfInfo', pdfInfo);
-        const pdfAttachments = pdfInfo._attachments;
-        const pdfObjects = [];
+      return Promise.all(
+        pdfs.rows.map(async (row: any) => {
+          const pdfInfo = row.key;
+          console.log('pdfInfo', pdfInfo);
+          const pdfAttachments = pdfInfo._attachments;
+          const pdfObjects = [];
 
-        for (const pdfAttachmentName in pdfAttachments) {
-          if (pdfAttachments.hasOwnProperty(pdfAttachmentName)) {
-            const pdfAttachment = pdfAttachments[pdfAttachmentName];
-            const pdfUrl = await this.getPdfUrl(pdfAttachment, pdfInfo._id, pdfAttachmentName);
+          for (const pdfAttachmentName in pdfAttachments) {
+            if (pdfAttachments.hasOwnProperty(pdfAttachmentName)) {
+              const pdfAttachment = pdfAttachments[pdfAttachmentName];
+              try {
+                const pdfUrl = await this.getPdfUrl(pdfAttachment, pdfInfo._id, pdfAttachmentName);
 
-            pdfObjects.push({
-              id: pdfInfo._id,
-              pdfName: pdfAttachmentName,
-              src: pdfUrl,
-              // Puedes agregar más propiedades según sea necesario
-            });
+                pdfObjects.push({
+                  id: pdfInfo._id,
+                  pdfName: pdfAttachmentName,
+                  src: pdfUrl,
+                  // Puedes agregar más propiedades según sea necesario
+                });
+              } catch (error) {
+                console.error('Error al obtener la URL del PDF:', error);
+              }
+            }
           }
-        }
 
-        return pdfObjects;
-      })
-    ).then((pdfArrays: any[]) => {
-      const flattenedArray = pdfArrays.reduce((acc, curr) => acc.concat(curr), []);
-      console.log('flattenedArray', flattenedArray);
-      return flattenedArray.filter((pdf: { src: null }) => pdf.src !== null);
-    }); // Filtra los objetos sin data
+          return pdfObjects;
+        })
+      ).then((pdfArrays: any[]) => {
+        const flattenedArray = pdfArrays.reduce((acc, curr) => acc.concat(curr), []);
+        console.log('flattenedArray', flattenedArray);
+        return flattenedArray.filter((pdf: { src: null }) => pdf.src !== null);
+      }); // Filtra los objetos sin data
+    } catch (error) {
+      console.error('Error al obtener todos los PDFs:', error);
+      return [];
+    }
   }
 
   async getPdfUrl(pdfAttachment: any, pdfId: string, pdfName: string): Promise<string | null> {
@@ -156,10 +165,15 @@ export class PouchdbService {
     });
   }
 
-  async getStands(){
-    const stands = await this.localDB.query('filmineria/stands');
-    console.log('stands From service', stands);
-    return stands
+  async getStands() {
+    try {
+      const stands = await this.localDB.query('filmineria/stands');
+      console.log('stands From service', stands);
+      return stands;
+    } catch (error) {
+      console.error('Error al obtener los stands:', error);
+      return null;
+    }
   }
 
   //* Metodos para la base de datos de actividades
