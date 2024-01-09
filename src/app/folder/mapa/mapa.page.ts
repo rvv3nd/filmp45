@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
 import { PouchdbService } from 'src/app/services/pouchdb.service';
+import { ThemeService } from 'src/app/services/theme.service';
 
 @Component({
   selector: 'app-mapa',
@@ -12,12 +13,15 @@ export class MapaPage implements OnInit, AfterViewInit {
   found: boolean = true;
   constructor(
     private pouchService : PouchdbService,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private theme: ThemeService,
   ) { }
 
   ngOnInit() {
-
+    this.isModeLight = this.theme.getMode();
   }
+
+  isModeLight: boolean = true;
   srcPA = '';
   srcPB = '';
   clicked = false;

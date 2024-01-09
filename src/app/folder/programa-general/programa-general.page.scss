@@ -10,6 +10,17 @@
     border-radius: 50px;
 }
 
+.light-mode-content{
+    --background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+}
+.dark-mode-content{
+    --background: #51284F;
+    padding: 20px;
+    border-radius: 8px;
+}
+
 .modal-publicitario{
     height: 100%; /* Ajusta la altura según tus necesidades */
     max-height: 100vh; /* Establece la altura máxima como el 50% del viewport height */

@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <app-not-found *ngIf="!found"/>
+  <app-not-found *ngIf="!found" [ngClass]="(isModeLight) ? 'light-mode-content' : 'dark-mode-content' "/>
   <ion-segment *ngIf="found" [(ngModel)]="plantaSeleccionada" class="segment-container-plantas" mode="md" (ionChange)="plantaChange()">
     <ion-segment-button value="plantaBaja">
       Planta Baja

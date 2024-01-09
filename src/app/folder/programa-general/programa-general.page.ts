@@ -5,6 +5,7 @@ import { IonContent, IonModal, LoadingController } from '@ionic/angular';
 
 import { OverlayEventDetail } from '@ionic/core';
 import { AnunciantesService } from 'src/app/services/anunciantes.service';
+import { ThemeService } from 'src/app/services/theme.service';
 @Component({
   selector: 'app-programa-general',
   templateUrl: './programa-general.page.html',
@@ -18,14 +19,17 @@ export class ProgramaGeneralPage implements OnInit, AfterViewInit {
     private pouchDBService: PouchdbService,
     private loadingCtrl: LoadingController,
     private anunciantesServ: AnunciantesService,
+    private themeService: ThemeService
   ) { }
 
   anuncio: any;
-  found = true;
+  found : boolean = true;
+  isModeLight = true;
   local: any;
   actividades : any[] = []
   
   ngOnInit() {
+    this.isModeLight = this.themeService.getMode();
     try{
       this.local = this.pouchDBService.getLocalDB();
       console.log('local', this.local);
@@ -39,7 +43,6 @@ export class ProgramaGeneralPage implements OnInit, AfterViewInit {
         }));
       }
     }catch(err){
-      this.found = false;
       console.log(err);
     }
   }
@@ -49,7 +52,7 @@ export class ProgramaGeneralPage implements OnInit, AfterViewInit {
     // Asegúrate de que actividadesComponent no sea null antes de llamar a sus métodos
     if (this.actividadesComponent) {
       this.actividadesComponent.getActividadesPorDia(true).then((found) => {
-        this.found = found;
+        this.found = true;
       });
     }
   }
@@ -79,7 +82,8 @@ export class ProgramaGeneralPage implements OnInit, AfterViewInit {
       , 10000);
     })
     this.loadingCtrl.dismiss().then(() => { 
-      if(this.actividades.length == 0) this.found = false;
+      console.log('loading dismissed', this.actividadesComponent.actividadesFilter);
+      if(this.actividadesComponent.actividadesFilter.length == 0) this.found = false;
       console.log('loading dismissed'); 
     });
   }
