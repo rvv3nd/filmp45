@@ -8,8 +8,8 @@
 </ion-header>
 
 
-<ion-content [fullscreen]="true"  >
-  <app-not-found *ngIf="!found" [ngClass]="(isModeLight) ? 'light-mode-content' : 'dark-mode-content' "/>
+<ion-content [fullscreen]="true" [ngClass]="(isModeLight) ? 'light-mode-content' : 'dark-mode-content' " >
+  <app-not-found *ngIf="!found"/>
   <div [style.display]="found ? 'block' : 'none'" >
     <ion-fab vertical="bottom" style="--background:#653165;" horizontal="end" slot="fixed">
       <div (click)="scrollToTop()" class="fab-button">
